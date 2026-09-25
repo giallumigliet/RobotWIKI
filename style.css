@@ -462,10 +462,12 @@ body {
 
 .guide-card {
     background: white;
-
     border: 1px solid var(--border);
-
     border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
 
     padding: 19px;
 
@@ -490,6 +492,7 @@ body {
     height: 38px;
 
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
 
