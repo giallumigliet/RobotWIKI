@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,138 +12,259 @@
 
 <body>
 
-    <header class="topbar">
-        <div class="logo">
-            🤖 Robot Wiki
-        </div>
+<header class="topbar">
 
-        <div class="search-container">
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Cerca robot..."
-            >
-        </div>
-    </header>
+    <div class="logo">
+        🤖 Robot Wiki
+    </div>
+
+    <input
+        id="searchInput"
+        class="search"
+        type="search"
+        placeholder="Cerca robot, marca o guida..."
+    >
+
+</header>
 
 
-    <main class="container">
+<main class="container">
 
-        <section class="hero">
-            <span class="hero-icon">🤖</span>
+    <!-- =========================
+         HOME
+    ========================== -->
+
+    <section id="homeView">
+
+        <div class="hero">
+
+            <div class="hero-icon">
+                🤖
+            </div>
 
             <div>
                 <h1>Robot Wiki</h1>
 
                 <p>
-                    Documentazione tecnica dei robot industriali.
-                    Seleziona un produttore per visualizzare i relativi robot.
+                    La mia documentazione sui robot industriali,
+                    organizzata per marca, modello e argomento.
                 </p>
             </div>
-        </section>
+
+        </div>
 
 
-        <!-- PRODUTTORI -->
+        <h2>Marche</h2>
 
-        <section>
-            <h2>Marche</h2>
+        <div id="brandsGrid" class="brands-grid">
+            <!-- generato da JS -->
+        </div>
 
-            <div id="brands" class="brand-grid">
+    </section>
 
-                <button class="brand-card" data-brand="fanuc">
-                    <span class="brand-icon">🟡</span>
-                    <span>
-                        <strong>FANUC</strong>
-                        <small>Robot industriali</small>
-                    </span>
-                </button>
 
-                <button class="brand-card" data-brand="staubli">
-                    <span class="brand-icon">🔵</span>
-                    <span>
-                        <strong>STAUBLI</strong>
-                        <small>Robot industriali</small>
-                    </span>
-                </button>
+    <!-- =========================
+         PAGINA MARCA
+    ========================== -->
 
-                <button class="brand-card" data-brand="abb">
-                    <span class="brand-icon">🔴</span>
-                    <span>
-                        <strong>ABB</strong>
-                        <small>Robot industriali</small>
-                    </span>
-                </button>
+    <section id="brandView" class="hidden">
 
-                <button class="brand-card" data-brand="kuka">
-                    <span class="brand-icon">🟠</span>
-                    <span>
-                        <strong>KUKA</strong>
-                        <small>Robot industriali</small>
-                    </span>
-                </button>
+        <button id="backToBrands" class="back-button">
+            ← Tutte le marche
+        </button>
+
+
+        <div class="brand-header">
+
+            <div id="brandLogo" class="brand-logo">
+                🤖
+            </div>
+
+            <div>
+
+                <h1 id="brandName">
+                    FANUC
+                </h1>
+
+                <p id="brandDescription">
+                    Robot e documentazione FANUC
+                </p>
 
             </div>
-        </section>
+
+        </div>
 
 
-        <!-- ROBOT DELLA MARCA -->
+        <!-- ROBOT -->
 
-        <section id="robotSection" class="robot-section hidden">
+        <section class="content-section">
 
-            <div class="section-header">
-
-                <button id="backButton" class="back-button">
-                    ← Marche
-                </button>
+            <div class="section-title">
 
                 <div>
-                    <h2 id="brandTitle">FANUC</h2>
-                    <p id="brandDescription">
-                        Robot disponibili
+                    <h2>🤖 Robot</h2>
+
+                    <p>
+                        Modelli con cui ho avuto esperienza.
                     </p>
                 </div>
 
             </div>
 
 
-            <div id="robotList" class="robot-grid">
-                <!-- generato da JavaScript -->
+            <div
+                id="robotsGrid"
+                class="robots-grid">
             </div>
 
         </section>
 
 
-        <!-- DOCUMENTAZIONE -->
+        <!-- GUIDE -->
 
-        <section id="documentSection" class="document-section hidden">
+        <section class="content-section">
 
-            <div class="document-header">
+            <div class="section-title">
 
-                <button id="backToRobots" class="back-button">
-                    ← Robot
-                </button>
+                <div>
+                    <h2>📚 Guide</h2>
 
-                <h2 id="documentTitle"></h2>
+                    <p>
+                        Documentazione e appunti divisi
+                        per argomento.
+                    </p>
+                </div>
 
             </div>
 
-            <article id="markdownContent" class="markdown-content">
-            </article>
+
+            <div
+                id="guidesGrid"
+                class="guides-grid">
+            </div>
 
         </section>
 
-    </main>
+    </section>
 
 
-    <footer>
-        Robot Wiki · Documentazione tecnica
-    </footer>
+    <!-- =========================
+         PAGINA ROBOT
+    ========================== -->
+
+    <section id="robotView" class="hidden">
+
+        <button id="backToBrandFromRobot"
+                class="back-button">
+            ← Torna alla marca
+        </button>
 
 
-    <!-- Markdown parser -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <div class="robot-page">
 
-    <script src="script.js"></script>
+            <div class="robot-image-container">
+
+                <img
+                    id="robotImage"
+                    src=""
+                    alt="Robot"
+                >
+
+            </div>
+
+
+            <div class="robot-info">
+
+                <span class="label">
+                    MODELLO
+                </span>
+
+                <h1 id="robotName">
+                    R-2000
+                </h1>
+
+                <p id="robotDescription">
+                </p>
+
+
+                <div class="robot-actions">
+
+                    <a
+                        id="datasheetButton"
+                        class="action-button"
+                        target="_blank"
+                    >
+                        📄 Datasheet
+                    </a>
+
+                    <a
+                        id="manualButton"
+                        class="action-button secondary"
+                        target="_blank"
+                    >
+                        📘 Manuale
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="robotMarkdown"
+            class="markdown-content">
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         GUIDA
+    ========================== -->
+
+    <section id="guideView" class="hidden">
+
+        <button id="backToBrandFromGuide"
+                class="back-button">
+            ← Torna alla marca
+        </button>
+
+
+        <div class="guide-header">
+
+            <span id="guideCategory"
+                  class="guide-category">
+                Programmazione
+            </span>
+
+            <h1 id="guideTitle">
+                Programmazione FANUC
+            </h1>
+
+        </div>
+
+
+        <article
+            id="guideMarkdown"
+            class="markdown-content">
+        </article>
+
+    </section>
+
+</main>
+
+
+<footer>
+    Robot Wiki · Documentazione personale
+</footer>
+
+
+<!-- Markdown -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<script src="script.js"></script>
 
 </body>
 </html>
