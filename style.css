@@ -469,7 +469,7 @@ body {
     align-items: center;
     gap: 12px;
 
-    padding: 19px;
+    padding: 10px;
 
     cursor: pointer;
 
@@ -504,13 +504,10 @@ body {
 
     font-size: 20px;
 
-    margin-bottom: 13px;
 }
 
 .guide-card h3 {
     font-size: 15px;
-
-    margin-bottom: 6px;
 }
 
 
