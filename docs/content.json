@@ -1,0 +1,76 @@
+{
+    "brands": [
+        {
+            "id": "ABB",
+            "logo": "logo.png",
+            "robots": [],
+            "guides": []
+        },
+        {
+            "id": "fanuc",
+            "logo": "logo.png",
+            "robots": [
+                {
+                    "id": "m-20iB-25",
+                    "markdown": null,
+                    "image": "m-20iB-25.jpg",
+                    "files": []
+                }
+            ],
+            "guides": [
+                "ADDONS.md",
+                "Architettura.md",
+                "RoboGuide.md",
+                "UOP_e_profinet.md",
+                "backup_e_restore.md",
+                "error_troubleshooting.md",
+                "hold.md",
+                "movements.md",
+                "payload_e_collisioni.md",
+                "programmi_BG_logic.md",
+                "programmi_TP.md",
+                "programmi_karel.md",
+                "quick_reference.md",
+                "registri_e_segnali.md",
+                "zone.md"
+            ]
+        },
+        {
+            "id": "staubli",
+            "logo": "logo.jpg",
+            "robots": [
+                {
+                    "id": "TX2-140",
+                    "markdown": null,
+                    "image": "tx2-140.png",
+                    "files": []
+                },
+                {
+                    "id": "TX2-60",
+                    "markdown": null,
+                    "image": "tx2-60.png",
+                    "files": []
+                },
+                {
+                    "id": "TX2-60L",
+                    "markdown": null,
+                    "image": "tx2-60L.png",
+                    "files": []
+                },
+                {
+                    "id": "TX2-90",
+                    "markdown": null,
+                    "image": "tx2-90.png",
+                    "files": []
+                },
+                {
+                    "id": "TX2-90L",
+                    "markdown": null,
+                    "image": "tx2-90L.png",
+                    "files": []
+                }
+            ],
+            "guides": []
+        }
+    ]
+}
