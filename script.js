@@ -1298,6 +1298,41 @@ document
     );
 
 
+document
+    .getElementById(
+        "logo"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            homeView.classList.remove(
+                "hidden"
+            );
+
+            brandView.classList.add(
+                "hidden"
+            );
+
+            robotView.classList.add(
+                "hidden"
+            );
+
+            guideView.classList.add(
+                "hidden"
+            );
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+    );
+
+
+
+
 /*
 ==================================================
 TORNA ALLA MARCA DAL ROBOT
