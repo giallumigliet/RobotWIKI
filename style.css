@@ -77,6 +77,8 @@ body {
     border-bottom: 1px solid var(--border-dark);
 }
 
+
+
 .logo {
     display: flex;
     align-items: center;
@@ -86,6 +88,14 @@ body {
     font-weight: 700;
 
     letter-spacing: -0.3px;
+
+    cursor: pointer;
+
+    user-select: none;
+}
+
+.logo:hover {
+    color: var(--blue-light);
 }
 
 .logo::before {
