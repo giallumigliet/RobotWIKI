@@ -15,9 +15,9 @@ OWNER = "mariorossi"
 REPO  = "robot-wiki"
 */
 
-const OWNER = "TUO_USERNAME";
+const OWNER = "giallumigliet";
 
-const REPO = "TUO_REPOSITORY";
+const REPO = "RobotWIKI";
 
 
 /*
