@@ -592,10 +592,6 @@ function loadGuides(brand) {
             <h3>
                 ${escapeHTML(formatName(file))}
             </h3>
-
-            <p>
-                Apri guida →
-            </p>
         `;
 
         card.addEventListener(
