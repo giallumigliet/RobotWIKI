@@ -336,25 +336,26 @@ function renderBrands(
             "brand-card";
 
 
+
+
         card.innerHTML = `
+    <div class="brand-icon">
+        <img
+            src="${githubRawURL(`docs/${brand.name}/logo.png`)}"
+            alt="${formatName(brand.name)}"
+            onerror="this.style.display='none'; this.parentElement.classList.add('no-logo');"
+        >
+        <span>🤖</span>
+    </div>
 
-            <div class="brand-icon">
-                🤖
-            </div>
+    <div>
+        <strong>${formatName(brand.name)}</strong>
+        <small>Visualizza robot e guide</small>
+    </div>
+`;
 
-            <div>
 
-                <strong>
-                    ${brand.name}
-                </strong>
 
-                <small>
-                    Documentazione
-                </small>
-
-            </div>
-
-        `;
 
 
         card.addEventListener(
