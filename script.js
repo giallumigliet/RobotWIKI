@@ -332,13 +332,12 @@ async function renderBrands(filter = "") {
 
     brandsGrid.innerHTML = "";
 
-    const filtered =
-        allBrands.filter(
-            brand =>
-                brand.name
-                    .toLowerCase()
-                    .includes(filter.toLowerCase())
-        );
+    const filtered = allBrands.filter(
+        brand =>
+            brand.name
+                .toLowerCase()
+                .includes(filter.toLowerCase())
+    );
 
     if (filtered.length === 0) {
 
@@ -351,15 +350,26 @@ async function renderBrands(filter = "") {
         return;
     }
 
-    for (const brand of filtered) {
+    const brandsWithLogos = await Promise.all(
+        filtered.map(async brand => {
+
+            const logo =
+                await findBrandLogo(brand.name);
+
+            return {
+                brand,
+                logo
+            };
+
+        })
+    );
+
+    brandsWithLogos.forEach(({ brand, logo }) => {
 
         const card =
             document.createElement("div");
 
         card.className = "brand-card";
-
-        const logo =
-            await findBrandLogo(brand.name);
 
         card.innerHTML = `
             <div class="brand-icon">
@@ -396,7 +406,7 @@ async function renderBrands(filter = "") {
         );
 
         brandsGrid.appendChild(card);
-    }
+    });
 }
 
 
