@@ -317,18 +317,41 @@ body {
 ================================= */
 
 .robots-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fill,
-            minmax(270px, 1fr)
-        );
+    display: flex;
 
     gap: 16px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding: 4px 2px 14px;
+
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: thin;
+}
+
+.robots-grid::-webkit-scrollbar {
+    height: 6px;
+}
+
+.robots-grid::-webkit-scrollbar-track {
+    background: #edf1f5;
+    border-radius: 10px;
+}
+
+.robots-grid::-webkit-scrollbar-thumb {
+    background: #b8dfff;
+    border-radius: 10px;
+}
+
+.robots-grid::-webkit-scrollbar-thumb:hover {
+    background: var(--blue);
 }
 
 .robot-card {
+    flex: 0 0 270px;
+    
     background: white;
 
     border: 1px solid var(--border);
