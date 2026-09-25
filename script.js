@@ -329,7 +329,7 @@ MOSTRA MARCHE
 ==================================================
 */
 
-function renderBrands(
+async function renderBrands(
     filter = ""
 ) {
 
@@ -356,11 +356,10 @@ function renderBrands(
         `;
 
         return;
-
     }
 
 
-    filtered.forEach(brand => {
+    for (const brand of filtered) {
 
         const card =
             document.createElement("div");
@@ -369,33 +368,47 @@ function renderBrands(
         card.className =
             "brand-card";
 
-        const logo = await findBrandLogo(brand.name);
 
-    card.innerHTML = `
+        /*
+        Cerca automaticamente il logo
+        */
 
-        <div class="brand-icon">
+        const logo =
+            await findBrandLogo(brand.name);
 
-            ${
 
-                logo
+        card.innerHTML = `
 
-                ? `<img src="${logo}" alt="${formatName(brand.name)}">`
+            <div class="brand-icon">
 
-                : `<span>🤖</span>`
+                ${
+                    logo
+                    ? `
+                        <img
+                            src="${logo}"
+                            alt="${formatName(brand.name)}"
+                        >
+                    `
+                    : `
+                        <span>🤖</span>
+                    `
+                }
 
-            }
+            </div>
 
-        </div>
+            <div>
 
-        <div>
+                <strong>
+                    ${formatName(brand.name)}
+                </strong>
 
-            <strong>${formatName(brand.name)}</strong>
+                <small>
+                    Visualizza robot e guide
+                </small>
 
-            <small>Visualizza robot e guide</small>
+            </div>
 
-        </div>
-
-    `;
+        `;
 
 
         card.addEventListener(
@@ -405,12 +418,8 @@ function renderBrands(
 
 
         brandsGrid.appendChild(card);
-
-    });
-
+    }
 }
-
-
 /*
 ==================================================
 APRI MARCA
