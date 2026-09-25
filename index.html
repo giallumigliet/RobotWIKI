@@ -2,15 +2,26 @@
 <html lang="it">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Robot Wiki</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
 
+
 <body>
+
 
 <header class="topbar">
 
@@ -22,7 +33,7 @@
         id="searchInput"
         class="search"
         type="search"
-        placeholder="Cerca robot, marca o guida..."
+        placeholder="Cerca..."
     >
 
 </header>
@@ -30,9 +41,10 @@
 
 <main class="container">
 
-    <!-- =========================
+
+    <!-- =================================
          HOME
-    ========================== -->
+    ================================== -->
 
     <section id="homeView">
 
@@ -43,42 +55,75 @@
             </div>
 
             <div>
-                <h1>Robot Wiki</h1>
+
+                <h1>
+                    Robot Wiki
+                </h1>
 
                 <p>
-                    La mia documentazione sui robot industriali,
-                    organizzata per marca, modello e argomento.
+                    Documentazione, robot e guide
+                    tecniche.
                 </p>
+
             </div>
 
         </div>
 
 
-        <h2>Marche</h2>
+        <div class="page-title">
 
-        <div id="brandsGrid" class="brands-grid">
-            <!-- generato da JS -->
+            <h2>
+                Marche
+            </h2>
+
+            <p>
+                Seleziona un produttore.
+            </p>
+
+        </div>
+
+
+        <div
+            id="brandsGrid"
+            class="brands-grid"
+        >
+
+            <div class="loading">
+                Caricamento marche...
+            </div>
+
         </div>
 
     </section>
 
 
-    <!-- =========================
-         PAGINA MARCA
-    ========================== -->
 
-    <section id="brandView" class="hidden">
+    <!-- =================================
+         MARCA
+    ================================== -->
 
-        <button id="backToBrands" class="back-button">
-            ← Tutte le marche
+    <section
+        id="brandView"
+        class="hidden"
+    >
+
+        <button
+            id="backToBrands"
+            class="back-button"
+        >
+            ← Marche
         </button>
 
 
         <div class="brand-header">
 
-            <div id="brandLogo" class="brand-logo">
+            <div
+                id="brandIcon"
+                class="brand-icon-big"
+            >
                 🤖
             </div>
+
 
             <div>
 
@@ -87,12 +132,12 @@
                 </h1>
 
                 <p id="brandDescription">
-                    Robot e documentazione FANUC
                 </p>
 
             </div>
 
         </div>
+
 
 
         <!-- ROBOT -->
@@ -101,23 +146,27 @@
 
             <div class="section-title">
 
-                <div>
-                    <h2>🤖 Robot</h2>
+                <h2>
+                    🤖 Robot
+                </h2>
 
-                    <p>
-                        Modelli con cui ho avuto esperienza.
-                    </p>
-                </div>
+                <p>
+                    Modelli con cui ho avuto
+                    a che fare.
+                </p>
 
             </div>
 
 
             <div
                 id="robotsGrid"
-                class="robots-grid">
+                class="robots-grid"
+            >
+
             </div>
 
         </section>
+
 
 
         <!-- GUIDE -->
@@ -126,21 +175,23 @@
 
             <div class="section-title">
 
-                <div>
-                    <h2>📚 Guide</h2>
+                <h2>
+                    📚 Guide
+                </h2>
 
-                    <p>
-                        Documentazione e appunti divisi
-                        per argomento.
-                    </p>
-                </div>
+                <p>
+                    Documentazione divisa per
+                    argomento.
+                </p>
 
             </div>
 
 
             <div
                 id="guidesGrid"
-                class="guides-grid">
+                class="guides-grid"
+            >
+
             </div>
 
         </section>
@@ -148,29 +199,44 @@
     </section>
 
 
-    <!-- =========================
-         PAGINA ROBOT
-    ========================== -->
 
-    <section id="robotView" class="hidden">
+    <!-- =================================
+         ROBOT
+    ================================== -->
 
-        <button id="backToBrandFromRobot"
-                class="back-button">
+    <section
+        id="robotView"
+        class="hidden"
+    >
+
+        <button
+            id="backToBrandFromRobot"
+            class="back-button"
+        >
             ← Torna alla marca
         </button>
 
 
         <div class="robot-page">
 
+
             <div class="robot-image-container">
 
                 <img
                     id="robotImage"
                     src=""
-                    alt="Robot"
+                    alt=""
                 >
 
+                <div
+                    id="robotImagePlaceholder"
+                    class="image-placeholder"
+                >
+                    🤖
+                </div>
+
             </div>
+
 
 
             <div class="robot-info">
@@ -179,31 +245,20 @@
                     MODELLO
                 </span>
 
+
                 <h1 id="robotName">
-                    R-2000
                 </h1>
 
+
                 <p id="robotDescription">
+                    Documentazione del robot.
                 </p>
 
 
-                <div class="robot-actions">
-
-                    <a
-                        id="datasheetButton"
-                        class="action-button"
-                        target="_blank"
-                    >
-                        📄 Datasheet
-                    </a>
-
-                    <a
-                        id="manualButton"
-                        class="action-button secondary"
-                        target="_blank"
-                    >
-                        📘 Manuale
-                    </a>
+                <div
+                    id="robotFiles"
+                    class="robot-actions"
+                >
 
                 </div>
 
@@ -212,35 +267,44 @@
         </div>
 
 
-        <div
+        <article
             id="robotMarkdown"
-            class="markdown-content">
-        </div>
+            class="markdown-content"
+        >
+
+        </article>
 
     </section>
 
 
-    <!-- =========================
+
+    <!-- =================================
          GUIDA
-    ========================== -->
+    ================================== -->
 
-    <section id="guideView" class="hidden">
+    <section
+        id="guideView"
+        class="hidden"
+    >
 
-        <button id="backToBrandFromGuide"
-                class="back-button">
+        <button
+            id="backToBrandFromGuide"
+            class="back-button"
+        >
             ← Torna alla marca
         </button>
 
 
         <div class="guide-header">
 
-            <span id="guideCategory"
-                  class="guide-category">
-                Programmazione
+            <span
+                id="guideBrand"
+                class="guide-category"
+            >
             </span>
 
+
             <h1 id="guideTitle">
-                Programmazione FANUC
             </h1>
 
         </div>
@@ -248,23 +312,32 @@
 
         <article
             id="guideMarkdown"
-            class="markdown-content">
+            class="markdown-content"
+        >
+
         </article>
 
     </section>
+
 
 </main>
 
 
 <footer>
-    Robot Wiki · Documentazione personale
+
+    Robot Wiki
+
 </footer>
 
 
-<!-- Markdown -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+></script>
+
 
 <script src="script.js"></script>
 
+
 </body>
+
 </html>
