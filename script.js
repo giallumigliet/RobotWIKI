@@ -294,33 +294,35 @@ async function findBrandLogo(brand) {
 
     try {
 
-        const response = await fetch(
-            `https://api.github.com/repos/${OWNER}/${REPO}/contents/docs/${brand}`
-        );
+        const items =
+            await githubList(
+                `${DOCS_FOLDER}/${brand.id}`
+            );
 
-        if (!response.ok) {
-            return null;
-        }
+        const logo =
+            items.find(
+                item =>
+                    item.type === "file" &&
+                    /^logo\.(png|jpg|jpeg|webp|svg|gif)$/i.test(
+                        item.name
+                    )
+            );
 
-        const files = await response.json();
-
-        const logo = files.find(item =>
-            item.type === "file" &&
-            /^logo\.(png|jpg|jpeg|webp|svg|gif)$/i.test(item.name)
-        );
-
-        return logo ? logo.download_url : null;
+        return logo
+            ? logo.download_url
+            : null;
 
     } catch (error) {
 
         console.error(
-            `Errore ricerca logo ${brand}:`,
+            `Errore ricerca logo ${brand.id}:`,
             error
         );
 
         return null;
     }
 }
+
 
 /*
 ==================================================
@@ -332,12 +334,15 @@ async function renderBrands(filter = "") {
 
     brandsGrid.innerHTML = "";
 
-    const filtered = allBrands.filter(
-        brand =>
-            brand.name
-                .toLowerCase()
-                .includes(filter.toLowerCase())
-    );
+    const filtered =
+        allBrands.filter(
+            brand =>
+                brand.name
+                    .toLowerCase()
+                    .includes(
+                        filter.toLowerCase()
+                    )
+        );
 
     if (filtered.length === 0) {
 
@@ -350,65 +355,100 @@ async function renderBrands(filter = "") {
         return;
     }
 
-    const brandsWithLogos = await Promise.all(
-        filtered.map(async brand => {
 
-            const logo =
-                await findBrandLogo(brand.name);
+    /*
+        Cerca i loghi di tutte le marche
+        in parallelo.
+    */
 
-            return {
-                brand,
-                logo
-            };
+    const brandsWithLogos =
+        await Promise.all(
+            filtered.map(
+                async brand => {
 
-        })
-    );
+                    const logo =
+                        await findBrandLogo(
+                            brand
+                        );
 
-    brandsWithLogos.forEach(({ brand, logo }) => {
+                    return {
+                        brand,
+                        logo
+                    };
 
-        const card =
-            document.createElement("div");
-
-        card.className = "brand-card";
-
-        card.innerHTML = `
-            <div class="brand-icon">
-
-                ${
-                    logo
-                    ? `
-                        <img
-                            src="${logo}"
-                            alt="${formatName(brand.name)}"
-                        >
-                    `
-                    : `
-                        <span>🤖</span>
-                    `
                 }
-
-            </div>
-
-            <div>
-                <strong>
-                    ${formatName(brand.name)}
-                </strong>
-
-                <small>
-                    Visualizza robot e guide
-                </small>
-            </div>
-        `;
-
-        card.addEventListener(
-            "click",
-            () => showBrand(brand)
+            )
         );
 
-        brandsGrid.appendChild(card);
-    });
-}
 
+    /*
+        Crea le card
+    */
+
+    brandsWithLogos.forEach(
+        ({ brand, logo }) => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "brand-card";
+
+
+            card.innerHTML = `
+
+                <div class="brand-icon">
+
+                    ${
+                        logo
+                        ? `
+                            <img
+                                src="${logo}"
+                                alt="${escapeHTML(
+                                    brand.name
+                                )}"
+                            >
+                        `
+                        : `
+                            <span>🤖</span>
+                        `
+                    }
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        ${escapeHTML(
+                            brand.name
+                        )}
+                    </strong>
+
+                    <small>
+                        Visualizza robot e guide
+                    </small>
+
+                </div>
+
+            `;
+
+
+            card.addEventListener(
+                "click",
+                () => showBrand(brand)
+            );
+
+
+            brandsGrid.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
 
 /*
 ==================================================
