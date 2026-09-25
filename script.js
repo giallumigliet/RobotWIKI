@@ -128,6 +128,25 @@ function getFileLabel(filename) {
 }
 
 
+
+function getGuideIcon(filename) {
+
+    const name = filename
+        .replace(/\.md$/i, "")
+        .replace(/_/g, " ")
+        .toLowerCase()
+        .trim();
+
+    if (name === "error troubleshooting") {
+        return "⚠️";
+    }
+
+    if (name === "quick reference") {
+        return "🎯";
+    }
+
+    return "📚";
+}
 // =================================
 // GESTIONE PAGINE
 // =================================
@@ -586,7 +605,7 @@ function loadGuides(brand) {
 
         card.innerHTML = `
             <div class="guide-icon">
-                📚
+                ${getGuideIcon(file)}
             </div>
 
             <h3>
