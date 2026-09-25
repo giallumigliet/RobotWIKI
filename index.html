@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Robot Wiki</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <div class="logo">
+            🤖 Robot Wiki
+        </div>
+
+        <div class="search-container">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Cerca robot..."
+            >
+        </div>
+    </header>
+
+
+    <main class="container">
+
+        <section class="hero">
+            <span class="hero-icon">🤖</span>
+
+            <div>
+                <h1>Robot Wiki</h1>
+
+                <p>
+                    Documentazione tecnica dei robot industriali.
+                    Seleziona un produttore per visualizzare i relativi robot.
+                </p>
+            </div>
+        </section>
+
+
+        <!-- PRODUTTORI -->
+
+        <section>
+            <h2>Marche</h2>
+
+            <div id="brands" class="brand-grid">
+
+                <button class="brand-card" data-brand="fanuc">
+                    <span class="brand-icon">🟡</span>
+                    <span>
+                        <strong>FANUC</strong>
+                        <small>Robot industriali</small>
+                    </span>
+                </button>
+
+                <button class="brand-card" data-brand="staubli">
+                    <span class="brand-icon">🔵</span>
+                    <span>
+                        <strong>STAUBLI</strong>
+                        <small>Robot industriali</small>
+                    </span>
+                </button>
+
+                <button class="brand-card" data-brand="abb">
+                    <span class="brand-icon">🔴</span>
+                    <span>
+                        <strong>ABB</strong>
+                        <small>Robot industriali</small>
+                    </span>
+                </button>
+
+                <button class="brand-card" data-brand="kuka">
+                    <span class="brand-icon">🟠</span>
+                    <span>
+                        <strong>KUKA</strong>
+                        <small>Robot industriali</small>
+                    </span>
+                </button>
+
+            </div>
+        </section>
+
+
+        <!-- ROBOT DELLA MARCA -->
+
+        <section id="robotSection" class="robot-section hidden">
+
+            <div class="section-header">
+
+                <button id="backButton" class="back-button">
+                    ← Marche
+                </button>
+
+                <div>
+                    <h2 id="brandTitle">FANUC</h2>
+                    <p id="brandDescription">
+                        Robot disponibili
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div id="robotList" class="robot-grid">
+                <!-- generato da JavaScript -->
+            </div>
+
+        </section>
+
+
+        <!-- DOCUMENTAZIONE -->
+
+        <section id="documentSection" class="document-section hidden">
+
+            <div class="document-header">
+
+                <button id="backToRobots" class="back-button">
+                    ← Robot
+                </button>
+
+                <h2 id="documentTitle"></h2>
+
+            </div>
+
+            <article id="markdownContent" class="markdown-content">
+            </article>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        Robot Wiki · Documentazione tecnica
+    </footer>
+
+
+    <!-- Markdown parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
