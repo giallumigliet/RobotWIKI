@@ -1421,26 +1421,6 @@ searchInput.addEventListener(
 
 
 
-function showHome() {
-    document
-        .querySelectorAll(".page")
-        .forEach(page => page.classList.add("hidden"));
-
-    document
-        .getElementById("home")
-        .classList.remove("hidden");
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-}
-
-
-
-
-
-
 /*
 ==================================================
 AVVIO
