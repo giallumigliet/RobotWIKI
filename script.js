@@ -71,9 +71,6 @@ const brandName =
 const brandDescription =
     document.getElementById("brandDescription");
 
-const brandIcon =
-    document.getElementById("brandIcon");
-
 
 const robotName =
     document.getElementById("robotName");
@@ -407,9 +404,6 @@ async function showBrand(brand) {
     brandDescription.textContent =
         "Robot e documentazione "
         + brand.name;
-
-    brandIcon.textContent =
-        "🤖";
 
 
     robotsGrid.innerHTML = `
