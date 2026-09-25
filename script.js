@@ -1,39 +1,19 @@
 /*
 ==================================================
-CONFIGURAZIONE GITHUB
-==================================================
-
-MODIFICA SOLO QUESTE DUE RIGHE.
-
-Esempio:
-
-https://github.com/mariorossi/robot-wiki
-
-diventa:
-
-OWNER = "mariorossi"
-REPO  = "robot-wiki"
-*/
-
-const OWNER = "giallumigliet";
-
-const REPO = "RobotWIKI";
-
-
-/*
-==================================================
 CONFIGURAZIONE
 ==================================================
 */
 
+const OWNER = "giallumigliet";
+const REPO = "RobotWIKI";
+
 const DOCS_FOLDER = "docs";
 
-const GITHUB_API =
-    "https://api.github.com/repos/"
-    + OWNER
-    + "/"
-    + REPO
-    + "/contents/";
+const CONTENT_URL =
+    `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/${DOCS_FOLDER}/content.json`;
+
+const RAW_BASE =
+    `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/`;
 
 
 /*
@@ -126,28 +106,11 @@ let allBrands = [];
 
 /*
 ==================================================
-CONVERSIONE NOME FILE
+CONVERSIONE NOMI
 ==================================================
-
-r_2000ic
-↓
-R 2000ic
-
-programmazione_base
-↓
-Programmazione Base
-
-gestione_allarmi
-↓
-Gestione Allarmi
 */
 
-
 function formatName(filename) {
-
-    /*
-        Rimuove estensione
-    */
 
     let name =
         filename.replace(
@@ -155,73 +118,47 @@ function formatName(filename) {
             ""
         );
 
+    return name
+        .split("_")
+        .map(word => {
 
-    /*
-        "_" diventa spazio
-        e la parola successiva
-        inizia con maiuscola
-    */
+            if (!word) {
+                return "";
+            }
 
-    name =
-        name
-            .split("_")
-            .map(word => {
+            return (
+                word.charAt(0).toUpperCase()
+                +
+                word.slice(1)
+            );
 
-                if (!word) {
-                    return "";
-                }
-
-                return (
-                    word.charAt(0).toUpperCase()
-                    +
-                    word.slice(1)
-                );
-
-            })
-            .join(" ");
-
-
-    return name;
-
+        })
+        .join(" ");
 }
 
 
 /*
 ==================================================
-CHIAMATA GITHUB API
+URL FILE
 ==================================================
 */
 
-async function githubList(path) {
+function githubRawURL(path) {
 
-    const response =
-        await fetch(
-            GITHUB_API + path
-        );
-
-
-    if (!response.ok) {
-
-        throw new Error(
-            "GitHub API error: "
-            + response.status
-        );
-
-    }
-
-
-    return await response.json();
-
+    return (
+        RAW_BASE +
+        path
+    );
 }
 
 
 /*
 ==================================================
-SCOPRE LE MARCHE
+CARICA CONTENT.JSON
 ==================================================
 */
 
-async function loadBrands() {
+async function loadContent() {
 
     try {
 
@@ -231,38 +168,43 @@ async function loadBrands() {
             </div>
         `;
 
-
-        const items =
-            await githubList(
-                DOCS_FOLDER
+        const response =
+            await fetch(
+                CONTENT_URL
             );
 
+        if (!response.ok) {
 
-        /*
-            Solo cartelle
-        */
-
-        const folders =
-            items.filter(
-                item =>
-                    item.type === "dir"
+            throw new Error(
+                "Impossibile caricare content.json"
             );
+
+        }
+
+        const data =
+            await response.json();
 
 
         allBrands =
-            folders.map(folder => ({
+            data.brands.map(
+                brand => ({
 
-                id: folder.name,
+                    id:
+                        brand.id,
 
-                name:
-                    formatName(
-                        folder.name
-                    ),
+                    name:
+                        formatName(
+                            brand.id
+                        ),
 
-                path:
-                    folder.path
+                    robots:
+                        brand.robots || [],
 
-            }));
+                    guides:
+                        brand.guides || []
+
+                })
+            );
 
 
         renderBrands();
@@ -274,53 +216,97 @@ async function loadBrands() {
 
             <div class="loading">
 
-                Impossibile leggere
-                il repository GitHub.
+                Impossibile caricare
+                la documentazione.
 
                 <br><br>
 
-                ${error.message}
+                ${escapeHTML(
+                    error.message
+                )}
 
             </div>
 
         `;
 
     }
-
 }
 
 
-async function findBrandLogo(brand) {
+/*
+==================================================
+LOGO MARCA
+==================================================
 
-    try {
+Il nome del file deve essere:
 
-        const items =
-            await githubList(
-                `${DOCS_FOLDER}/${brand.id}`
+logo.png
+logo.jpg
+logo.jpeg
+logo.webp
+logo.svg
+logo.gif
+
+Il JS prova direttamente i possibili URL.
+NON usa GitHub API.
+==================================================
+*/
+
+async function findBrandLogo(
+    brand
+) {
+
+    const extensions = [
+        "png",
+        "jpg",
+        "jpeg",
+        "webp",
+        "svg",
+        "gif"
+    ];
+
+
+    for (
+        const extension
+        of extensions
+    ) {
+
+        const url =
+            githubRawURL(
+                `${DOCS_FOLDER}/${brand.id}/logo.${extension}`
             );
 
-        const logo =
-            items.find(
-                item =>
-                    item.type === "file" &&
-                    /^logo\.(png|jpg|jpeg|webp|svg|gif)$/i.test(
-                        item.name
-                    )
-            );
 
-        return logo
-            ? logo.download_url
-            : null;
+        try {
 
-    } catch (error) {
+            const response =
+                await fetch(
+                    url,
+                    {
+                        method: "HEAD"
+                    }
+                );
 
-        console.error(
-            `Errore ricerca logo ${brand.id}:`,
-            error
-        );
 
-        return null;
+            if (response.ok) {
+
+                return url;
+
+            }
+
+        } catch (error) {
+
+            /*
+                Ignora il formato
+                non trovato.
+            */
+
+        }
+
     }
+
+
+    return null;
 }
 
 
@@ -330,9 +316,12 @@ MOSTRA MARCHE
 ==================================================
 */
 
-async function renderBrands(filter = "") {
+async function renderBrands(
+    filter = ""
+) {
 
     brandsGrid.innerHTML = "";
+
 
     const filtered =
         allBrands.filter(
@@ -344,7 +333,10 @@ async function renderBrands(filter = "") {
                     )
         );
 
-    if (filtered.length === 0) {
+
+    if (
+        filtered.length === 0
+    ) {
 
         brandsGrid.innerHTML = `
             <div class="loading">
@@ -353,40 +345,18 @@ async function renderBrands(filter = "") {
         `;
 
         return;
+
     }
 
 
     /*
-        Cerca i loghi di tutte le marche
-        in parallelo.
+        Crea subito le card.
+        Il logo viene caricato
+        successivamente.
     */
 
-    const brandsWithLogos =
-        await Promise.all(
-            filtered.map(
-                async brand => {
-
-                    const logo =
-                        await findBrandLogo(
-                            brand
-                        );
-
-                    return {
-                        brand,
-                        logo
-                    };
-
-                }
-            )
-        );
-
-
-    /*
-        Crea le card
-    */
-
-    brandsWithLogos.forEach(
-        ({ brand, logo }) => {
+    filtered.forEach(
+        brand => {
 
             const card =
                 document.createElement(
@@ -401,20 +371,7 @@ async function renderBrands(filter = "") {
 
                 <div class="brand-icon">
 
-                    ${
-                        logo
-                        ? `
-                            <img
-                                src="${logo}"
-                                alt="${escapeHTML(
-                                    brand.name
-                                )}"
-                            >
-                        `
-                        : `
-                            <span>🤖</span>
-                        `
-                    }
+                    <span>🤖</span>
 
                 </div>
 
@@ -445,10 +402,60 @@ async function renderBrands(filter = "") {
                 card
             );
 
+
+            /*
+                Carica il logo
+                senza bloccare
+                le altre card.
+            */
+
+            findBrandLogo(
+                brand
+            ).then(
+                logo => {
+
+                    if (!logo) {
+                        return;
+                    }
+
+
+                    const image =
+                        document.createElement(
+                            "img"
+                        );
+
+
+                    image.src =
+                        logo;
+
+
+                    image.alt =
+                        brand.name;
+
+
+                    image.onload =
+                        () => {
+
+                            const icon =
+                                card.querySelector(
+                                    ".brand-icon"
+                                );
+
+                            icon.innerHTML = "";
+
+                            icon.appendChild(
+                                image
+                            );
+
+                        };
+
+                }
+            );
+
         }
     );
-
 }
+
 
 /*
 ==================================================
@@ -456,9 +463,12 @@ APRI MARCA
 ==================================================
 */
 
-async function showBrand(brand) {
+async function showBrand(
+    brand
+) {
 
-    currentBrand = brand;
+    currentBrand =
+        brand;
 
 
     homeView.classList.add(
@@ -481,6 +491,7 @@ async function showBrand(brand) {
     brandName.textContent =
         brand.name;
 
+
     brandDescription.textContent =
         "Robot e documentazione "
         + brand.name;
@@ -500,10 +511,6 @@ async function showBrand(brand) {
     `;
 
 
-    /*
-        Carica in parallelo
-    */
-
     await Promise.all([
         loadRobots(brand),
         loadGuides(brand)
@@ -514,7 +521,6 @@ async function showBrand(brand) {
         top: 0,
         behavior: "smooth"
     });
-
 }
 
 
@@ -524,61 +530,35 @@ CARICA ROBOT
 ==================================================
 */
 
-async function loadRobots(brand) {
+async function loadRobots(
+    brand
+) {
 
-    try {
-
-        const path =
-            `${DOCS_FOLDER}/${brand.id}/robots`;
-
-
-        const items =
-            await githubList(path);
+    robotsGrid.innerHTML = "";
 
 
-        /*
-            Ogni cartella dentro
-            robots = un robot
-        */
+    if (
+        !brand.robots ||
+        brand.robots.length === 0
+    ) {
 
-        const robotFolders =
-            items.filter(
-                item =>
-                    item.type === "dir"
-            );
+        robotsGrid.innerHTML = `
+            <div class="loading">
+                Nessun robot inserito.
+            </div>
+        `;
 
-
-        robotsGrid.innerHTML = "";
-
-
-        if (
-            robotFolders.length === 0
-        ) {
-
-            robotsGrid.innerHTML = `
-                <div class="loading">
-                    Nessun robot inserito.
-                </div>
-            `;
-
-            return;
-
-        }
+        return;
+    }
 
 
-        /*
-            Carichiamo il contenuto
-            di ogni cartella robot
-        */
-
-        for (
-            const folder
-            of robotFolders
-        ) {
+    brand.robots.forEach(
+        robotFolder => {
 
             const robot =
-                await readRobot(
-                    folder
+                readRobot(
+                    brand,
+                    robotFolder
                 );
 
 
@@ -587,128 +567,49 @@ async function loadRobots(brand) {
             );
 
         }
-
-
-    } catch (error) {
-
-        robotsGrid.innerHTML = `
-
-            <div class="loading">
-
-                Nessuna cartella
-                <strong>robots</strong>
-                trovata.
-
-            </div>
-
-        `;
-
-    }
-
+    );
 }
 
 
 /*
 ==================================================
-LEGGE UN ROBOT
+LEGGE ROBOT
+==================================================
+
+Non usa API.
+
+I file vengono cercati
+secondo una struttura standard.
 ==================================================
 */
 
-async function readRobot(
-    folder
+function readRobot(
+    brand,
+    folderName
 ) {
 
-    const items =
-        await githubList(
-            folder.path
-        );
-
-
-    const markdown =
-        items.find(
-            item =>
-                item.type === "file"
-                &&
-                item.name
-                    .toLowerCase()
-                    .endsWith(".md")
-        );
-
-
-    const image =
-        items.find(
-            item =>
-                item.type === "file"
-                &&
-                isImage(
-                    item.name
-                )
-        );
-
-
-    const files =
-        items.filter(
-            item =>
-                item.type === "file"
-                &&
-                !isImage(
-                    item.name
-                )
-                &&
-                !item.name
-                    .toLowerCase()
-                    .endsWith(".md")
-        );
+    const path =
+        `${DOCS_FOLDER}/${brand.id}/robots/${folderName}`;
 
 
     return {
 
         name:
             formatName(
-                folder.name
+                folderName
             ),
 
-        path:
-            folder.path,
+        path,
 
-        markdown,
+        markdown:
+            `${path}/${folderName}.md`,
 
-        image,
+        image:
+            `${path}/${folderName}.jpg`,
 
-        files
+        files: []
 
     };
-
-}
-
-
-/*
-==================================================
-CONTROLLA IMMAGINE
-==================================================
-*/
-
-function isImage(
-    filename
-) {
-
-    const extension =
-        filename
-            .split(".")
-            .pop()
-            .toLowerCase();
-
-
-    return [
-        "jpg",
-        "jpeg",
-        "png",
-        "webp",
-        "gif"
-    ].includes(
-        extension
-    );
-
 }
 
 
@@ -723,23 +624,18 @@ function createRobotCard(
 ) {
 
     const card =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
     card.className =
         "robot-card";
 
 
-    /*
-        Immagine
-    */
+    const imageHTML = `
 
-    let imageHTML;
-
-
-    if (robot.image) {
-
-        imageHTML = `
+        <div class="robot-card-image">
 
             <img
                 src="${githubRawURL(
@@ -748,39 +644,15 @@ function createRobotCard(
                 alt="${escapeHTML(
                     robot.name
                 )}"
+                onerror="
+                    this.parentElement.innerHTML =
+                    '<div class=&quot;robot-card-image no-image&quot;>🤖</div>'
+                "
             >
 
-        `;
+        </div>
 
-    } else {
-
-        imageHTML = `
-            <div class="robot-card-image no-image">
-                🤖
-            </div>
-        `;
-
-    }
-
-
-    /*
-        Se c'è immagine
-        mettiamo la card-image
-    */
-
-    if (robot.image) {
-
-        imageHTML = `
-
-            <div class="robot-card-image">
-
-                ${imageHTML}
-
-            </div>
-
-        `;
-
-    }
+    `;
 
 
     card.innerHTML = `
@@ -810,8 +682,9 @@ function createRobotCard(
     );
 
 
-    robotsGrid.appendChild(card);
-
+    robotsGrid.appendChild(
+        card
+    );
 }
 
 
@@ -851,31 +724,31 @@ async function showRobot(
         IMMAGINE
     */
 
-    if (robot.image) {
+    robotImage.src =
+        githubRawURL(
+            robot.image
+        );
 
-        robotImage.src =
-            githubRawURL(
-                robot.image
-            );
+    robotImage.alt =
+        robot.name;
 
-        robotImage.alt =
-            robot.name;
+    robotImage.style.display =
+        "block";
 
-        robotImage.style.display =
-            "block";
+    robotImagePlaceholder.style.display =
+        "none";
 
-        robotImagePlaceholder.style.display =
-            "none";
 
-    } else {
+    robotImage.onerror =
+        () => {
 
-        robotImage.style.display =
-            "none";
+            robotImage.style.display =
+                "none";
 
-        robotImagePlaceholder.style.display =
-            "flex";
+            robotImagePlaceholder.style.display =
+                "flex";
 
-    }
+        };
 
 
     /*
@@ -885,81 +758,86 @@ async function showRobot(
     robotFiles.innerHTML = "";
 
 
-    robot.files.forEach(
-        file => {
+    /*
+        Senza API non possiamo
+        sapere automaticamente
+        quali PDF esistono.
 
-            const button =
-                document.createElement("a");
+        Quindi i file vengono
+        definiti in content.json
+        quando necessario.
+    */
+
+    if (
+        robot.files &&
+        robot.files.length > 0
+    ) {
+
+        robot.files.forEach(
+            file => {
+
+                const button =
+                    document.createElement(
+                        "a"
+                    );
 
 
-            button.className =
-                "action-button";
+                button.className =
+                    "action-button";
 
 
-            button.href =
-                githubRawURL(
-                    file
+                button.href =
+                    githubRawURL(
+                        `${robot.path}/${file}`
+                    );
+
+
+                button.target =
+                    "_blank";
+
+
+                button.rel =
+                    "noopener";
+
+
+                button.textContent =
+                    getFileLabel(
+                        file
+                    );
+
+
+                robotFiles.appendChild(
+                    button
                 );
 
+            }
+        );
 
-            button.target =
-                "_blank";
-
-
-            button.rel =
-                "noopener";
-
-
-            button.textContent =
-                getFileLabel(
-                    file.name
-                );
-
-
-            robotFiles.appendChild(
-                button
-            );
-
-        }
-    );
+    }
 
 
     /*
         MARKDOWN
     */
 
-    if (robot.markdown) {
-
-        await loadMarkdown(
-            githubRawURL(
-                robot.markdown
-            ),
-            robotMarkdown
-        );
-
-    } else {
-
-        robotMarkdown.innerHTML = `
-            <p>
-                Nessuna documentazione
-                Markdown disponibile.
-            </p>
-        `;
-
-    }
+    await loadMarkdown(
+        githubRawURL(
+            robot.markdown
+        ),
+        robotMarkdown
+    );
 
 
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
-
 }
 
 
 /*
 ==================================================
-NOME DEI FILE PDF
+NOME FILE
 ==================================================
 */
 
@@ -968,11 +846,10 @@ function getFileLabel(
 ) {
 
     const name =
-        filename
-            .replace(
-                /\.[^/.]+$/,
-                ""
-            );
+        filename.replace(
+            /\.[^/.]+$/,
+            ""
+        );
 
 
     if (
@@ -1012,7 +889,6 @@ function getFileLabel(
         + formatName(
             name
         );
-
 }
 
 
@@ -1026,69 +902,34 @@ async function loadGuides(
     brand
 ) {
 
-    try {
-
-        const path =
-            `${DOCS_FOLDER}/${brand.id}/guides`;
+    guidesGrid.innerHTML = "";
 
 
-        const items =
-            await githubList(path);
-
-
-        const markdownFiles =
-            items.filter(
-                item =>
-                    item.type === "file"
-                    &&
-                    item.name
-                        .toLowerCase()
-                        .endsWith(".md")
-            );
-
-
-        guidesGrid.innerHTML = "";
-
-
-        if (
-            markdownFiles.length === 0
-        ) {
-
-            guidesGrid.innerHTML = `
-                <div class="loading">
-                    Nessuna guida inserita.
-                </div>
-            `;
-
-            return;
-
-        }
-
-
-        markdownFiles.forEach(
-            file => {
-
-                createGuideCard(
-                    file,
-                    brand
-                );
-
-            }
-        );
-
-
-    } catch (error) {
+    if (
+        !brand.guides ||
+        brand.guides.length === 0
+    ) {
 
         guidesGrid.innerHTML = `
             <div class="loading">
-                Nessuna cartella
-                <strong>guides</strong>
-                trovata.
+                Nessuna guida inserita.
             </div>
         `;
 
+        return;
     }
 
+
+    brand.guides.forEach(
+        file => {
+
+            createGuideCard(
+                file,
+                brand
+            );
+
+        }
+    );
 }
 
 
@@ -1104,7 +945,9 @@ function createGuideCard(
 ) {
 
     const card =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
     card.className =
@@ -1113,7 +956,7 @@ function createGuideCard(
 
     const name =
         formatName(
-            file.name
+            file
         );
 
 
@@ -1124,7 +967,9 @@ function createGuideCard(
         </div>
 
         <h3>
-            ${escapeHTML(name)}
+            ${escapeHTML(
+                name
+            )}
         </h3>
 
         <p>
@@ -1148,7 +993,6 @@ function createGuideCard(
     guidesGrid.appendChild(
         card
     );
-
 }
 
 
@@ -1178,7 +1022,7 @@ async function showGuide(
 
     guideTitle.textContent =
         formatName(
-            file.name
+            file
         );
 
 
@@ -1187,7 +1031,9 @@ async function showGuide(
 
 
     await loadMarkdown(
-        githubRawURL(file),
+        githubRawURL(
+            `${DOCS_FOLDER}/${brand.id}/guides/${file}`
+        ),
         guideMarkdown
     );
 
@@ -1196,7 +1042,6 @@ async function showGuide(
         top: 0,
         behavior: "smooth"
     });
-
 }
 
 
@@ -1260,41 +1105,6 @@ async function loadMarkdown(
         `;
 
     }
-
-}
-
-
-/*
-==================================================
-URL FILE GITHUB
-==================================================
-*/
-
-function githubRawURL(
-    item
-) {
-
-    /*
-        item può essere:
-        - oggetto GitHub API
-        - stringa
-    */
-
-    const path =
-        typeof item === "string"
-            ? item
-            : item.path;
-
-
-    return (
-        "https://raw.githubusercontent.com/"
-        + OWNER
-        + "/"
-        + REPO
-        + "/main/"
-        + path
-    );
-
 }
 
 
@@ -1329,7 +1139,6 @@ function escapeHTML(
             /'/g,
             "&#039;"
         );
-
 }
 
 
@@ -1339,36 +1148,38 @@ TORNA HOME
 ==================================================
 */
 
+function showHome() {
+
+    homeView.classList.remove(
+        "hidden"
+    );
+
+    brandView.classList.add(
+        "hidden"
+    );
+
+    robotView.classList.add(
+        "hidden"
+    );
+
+    guideView.classList.add(
+        "hidden"
+    );
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
 document
     .getElementById(
         "backToBrands"
     )
     .addEventListener(
         "click",
-        () => {
-
-            homeView.classList.remove(
-                "hidden"
-            );
-
-            brandView.classList.add(
-                "hidden"
-            );
-
-            robotView.classList.add(
-                "hidden"
-            );
-
-            guideView.classList.add(
-                "hidden"
-            );
-
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-
-        }
+        showHome
     );
 
 
@@ -1378,33 +1189,8 @@ document
     )
     .addEventListener(
         "click",
-        () => {
-
-            homeView.classList.remove(
-                "hidden"
-            );
-
-            brandView.classList.add(
-                "hidden"
-            );
-
-            robotView.classList.add(
-                "hidden"
-            );
-
-            guideView.classList.add(
-                "hidden"
-            );
-
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-
-        }
+        showHome
     );
-
-
 
 
 /*
@@ -1467,12 +1253,6 @@ searchInput.addEventListener(
                 .toLowerCase();
 
 
-        /*
-            Per ora la ricerca
-            filtra le marche
-            nella home.
-        */
-
         if (
             !brandView.classList.contains(
                 "hidden"
@@ -1492,13 +1272,10 @@ searchInput.addEventListener(
 );
 
 
-
-
-
 /*
 ==================================================
 AVVIO
 ==================================================
 */
 
-loadBrands();
+loadContent();
