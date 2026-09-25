@@ -270,13 +270,7 @@ body {
 ================================= */
 
 .brand-header {
-    background: white;
-
-    border: 1px solid var(--border);
-
-    border-radius: var(--radius);
-
-    padding: 25px;
+    padding: 0px 25px;
 
     display: flex;
     align-items: center;
