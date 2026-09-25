@@ -289,6 +289,40 @@ async function loadBrands() {
 }
 
 
+async function findBrandLogo(brand) {
+
+    const logoFormats = [
+        "png",
+        "jpg",
+        "jpeg",
+        "webp",
+        "svg",
+        "gif"
+    ];
+
+    for (const format of logoFormats) {
+
+        const path = `docs/${brand}/logo.${format}`;
+
+        try {
+
+            const response = await fetch(
+                `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`
+            );
+
+            if (response.ok) {
+                return githubRawURL(path);
+            }
+
+        } catch (error) {
+            console.error("Errore ricerca logo:", error);
+        }
+    }
+
+    return null;
+}
+
+
 /*
 ==================================================
 MOSTRA MARCHE
@@ -335,27 +369,33 @@ function renderBrands(
         card.className =
             "brand-card";
 
+        const logo = await findBrandLogo(brand.name);
 
+    card.innerHTML = `
 
+        <div class="brand-icon">
 
-        card.innerHTML = `
-    <div class="brand-icon">
-        <img
-            src="${githubRawURL(`docs/${brand.name}/logo.png`)}"
-            alt="${formatName(brand.name)}"
-            onerror="this.style.display='none'; this.parentElement.classList.add('no-logo');"
-        >
-        <span>🤖</span>
-    </div>
+            ${
 
-    <div>
-        <strong>${formatName(brand.name)}</strong>
-        <small>Visualizza robot e guide</small>
-    </div>
-`;
+                logo
 
+                ? `<img src="${logo}" alt="${formatName(brand.name)}">`
 
+                : `<span>🤖</span>`
 
+            }
+
+        </div>
+
+        <div>
+
+            <strong>${formatName(brand.name)}</strong>
+
+            <small>Visualizza robot e guide</small>
+
+        </div>
+
+    `;
 
 
         card.addEventListener(
