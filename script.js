@@ -1,343 +1,179 @@
-/*
-==================================================
-CONFIGURAZIONE
-==================================================
-*/
-
 const OWNER = "giallumigliet";
 const REPO = "RobotWIKI";
-
+const BRANCH = "main";
 const DOCS_FOLDER = "docs";
 
-const CONTENT_URL =
-    `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/${DOCS_FOLDER}/content.json`;
-
 const RAW_BASE =
-    `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/`;
+    `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/`;
+
+const CONTENT_URL =
+    `${RAW_BASE}${DOCS_FOLDER}/content.json?v=${Date.now()}`;
 
 
-/*
-==================================================
-ELEMENTI HTML
-==================================================
-*/
+// ===============================
+// ELEMENTI HTML
+// ===============================
 
-const homeView =
-    document.getElementById("homeView");
+const brandsGrid = document.getElementById("brandsGrid");
+const robotsGrid = document.getElementById("robotsGrid");
+const guidesList = document.getElementById("guidesList");
 
-const brandView =
-    document.getElementById("brandView");
+const homeView = document.getElementById("homeView");
+const brandView = document.getElementById("brandView");
+const robotView = document.getElementById("robotView");
+const guideView = document.getElementById("guideView");
 
-const robotView =
-    document.getElementById("robotView");
+const brandTitle = document.getElementById("brandTitle");
+const robotTitle = document.getElementById("robotTitle");
+const guideTitle = document.getElementById("guideTitle");
 
-const guideView =
-    document.getElementById("guideView");
+const robotImage = document.getElementById("robotImage");
+const robotFiles = document.getElementById("robotFiles");
+const robotMarkdown = document.getElementById("robotMarkdown");
 
+const guideMarkdown = document.getElementById("guideMarkdown");
 
-const brandsGrid =
-    document.getElementById("brandsGrid");
-
-const robotsGrid =
-    document.getElementById("robotsGrid");
-
-const guidesGrid =
-    document.getElementById("guidesGrid");
-
-
-const brandName =
-    document.getElementById("brandName");
-
-const brandDescription =
-    document.getElementById("brandDescription");
+const searchInput = document.getElementById("searchInput");
+const backButton = document.getElementById("backButton");
+const logoButton = document.getElementById("logo");
 
 
-const robotName =
-    document.getElementById("robotName");
-
-const robotDescription =
-    document.getElementById("robotDescription");
-
-const robotImage =
-    document.getElementById("robotImage");
-
-const robotImagePlaceholder =
-    document.getElementById(
-        "robotImagePlaceholder"
-    );
-
-const robotFiles =
-    document.getElementById("robotFiles");
-
-const robotMarkdown =
-    document.getElementById(
-        "robotMarkdown"
-    );
-
-
-const guideTitle =
-    document.getElementById("guideTitle");
-
-const guideBrand =
-    document.getElementById("guideBrand");
-
-const guideMarkdown =
-    document.getElementById(
-        "guideMarkdown"
-    );
-
-
-const searchInput =
-    document.getElementById(
-        "searchInput"
-    );
-
-
-/*
-==================================================
-STATO
-==================================================
-*/
-
-let currentBrand = null;
+// ===============================
+// DATI
+// ===============================
 
 let allBrands = [];
+let currentBrand = null;
 
 
-/*
-==================================================
-CONVERSIONE NOMI
-==================================================
-*/
+// ===============================
+// UTILITÀ
+// ===============================
 
 function formatName(filename) {
-
-    let name =
-        filename.replace(
-            /\.[^/.]+$/,
-            ""
-        );
+    let name = filename.replace(/\.[^/.]+$/, "");
 
     return name
         .split("_")
         .map(word => {
-
-            if (!word) {
-                return "";
-            }
-
-            return (
-                word.charAt(0).toUpperCase()
-                +
-                word.slice(1)
-            );
-
+            if (!word) return "";
+            return word.charAt(0).toUpperCase() + word.slice(1);
         })
         .join(" ");
 }
 
 
-/*
-==================================================
-URL FILE
-==================================================
-*/
+function escapeHTML(text) {
+    if (!text) return "";
 
-function githubRawURL(path) {
-
-    return (
-        RAW_BASE +
-        path
-    );
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 
-/*
-==================================================
-CARICA CONTENT.JSON
-==================================================
-*/
+function githubRawURL(path) {
+    return `${RAW_BASE}${path}`;
+}
+
+
+function getFileLabel(filename) {
+    const lower = filename.toLowerCase();
+
+    if (lower.includes("datasheet")) {
+        return "📄 Datasheet";
+    }
+
+    if (
+        lower.includes("manuale") ||
+        lower.includes("manual")
+    ) {
+        return "📘 Manuale";
+    }
+
+    return `📎 ${formatName(filename)}`;
+}
+
+
+function isImage(filename) {
+    const extension = filename
+        .split(".")
+        .pop()
+        .toLowerCase();
+
+    return [
+        "jpg",
+        "jpeg",
+        "png",
+        "webp",
+        "gif"
+    ].includes(extension);
+}
+
+
+// ===============================
+// CARICAMENTO CONTENT.JSON
+// ===============================
 
 async function loadContent() {
-
     try {
-
-        brandsGrid.innerHTML = `
-            <div class="loading">
-                Caricamento...
-            </div>
-        `;
-
-        const response =
-            await fetch(
-                CONTENT_URL
-            );
+        const response = await fetch(
+            CONTENT_URL,
+            {
+                cache: "no-store"
+            }
+        );
 
         if (!response.ok) {
-
             throw new Error(
-                "Impossibile caricare content.json"
+                `Errore caricamento content.json: ${response.status}`
             );
-
         }
 
-        const data =
-            await response.json();
+        const data = await response.json();
 
-
-        allBrands =
-            data.brands.map(
-                brand => ({
-
-                    id:
-                        brand.id,
-
-                    name:
-                        formatName(
-                            brand.id
-                        ),
-
-                    robots:
-                        brand.robots || [],
-
-                    guides:
-                        brand.guides || []
-
-                })
-            );
-
+        allBrands = (data.brands || []).map(brand => ({
+            ...brand,
+            name: formatName(brand.id)
+        }));
 
         renderBrands();
 
-
     } catch (error) {
+        console.error(error);
 
         brandsGrid.innerHTML = `
-
             <div class="loading">
-
-                Impossibile caricare
-                la documentazione.
-
-                <br><br>
-
-                ${escapeHTML(
-                    error.message
-                )}
-
+                Errore nel caricamento dei contenuti.
+                <br>
+                <small>
+                    Verifica che <strong>docs/content.json</strong>
+                    esista.
+                </small>
             </div>
-
         `;
-
     }
 }
 
 
-/*
-==================================================
-LOGO MARCA
-==================================================
+// ===============================
+// HOME - MARCHE
+// ===============================
 
-Il nome del file deve essere:
-
-logo.png
-logo.jpg
-logo.jpeg
-logo.webp
-logo.svg
-logo.gif
-
-Il JS prova direttamente i possibili URL.
-NON usa GitHub API.
-==================================================
-*/
-
-async function findBrandLogo(
-    brand
-) {
-
-    const extensions = [
-        "png",
-        "jpg",
-        "jpeg",
-        "webp",
-        "svg",
-        "gif"
-    ];
-
-
-    for (
-        const extension
-        of extensions
-    ) {
-
-        const url =
-            githubRawURL(
-                `${DOCS_FOLDER}/${brand.id}/logo.${extension}`
-            );
-
-
-        try {
-
-            const response =
-                await fetch(
-                    url,
-                    {
-                        method: "HEAD"
-                    }
-                );
-
-
-            if (response.ok) {
-
-                return url;
-
-            }
-
-        } catch (error) {
-
-            /*
-                Ignora il formato
-                non trovato.
-            */
-
-        }
-
-    }
-
-
-    return null;
-}
-
-
-/*
-==================================================
-MOSTRA MARCHE
-==================================================
-*/
-
-async function renderBrands(
-    filter = ""
-) {
+function renderBrands(filter = "") {
 
     brandsGrid.innerHTML = "";
 
+    const search = filter.toLowerCase().trim();
 
-    const filtered =
-        allBrands.filter(
-            brand =>
-                brand.name
-                    .toLowerCase()
-                    .includes(
-                        filter.toLowerCase()
-                    )
-        );
+    const filtered = allBrands.filter(brand =>
+        brand.name.toLowerCase().includes(search)
+    );
 
-
-    if (
-        filtered.length === 0
-    ) {
-
+    if (filtered.length === 0) {
         brandsGrid.innerHTML = `
             <div class="loading">
                 Nessuna marca trovata.
@@ -345,202 +181,88 @@ async function renderBrands(
         `;
 
         return;
-
     }
 
+    filtered.forEach(brand => {
 
-    /*
-        Crea subito le card.
-        Il logo viene caricato
-        successivamente.
-    */
+        const card = document.createElement("div");
 
-    filtered.forEach(
-        brand => {
+        card.className = "brand-card";
 
-            const card =
-                document.createElement(
-                    "div"
-                );
+        let logoHTML = `<span>🤖</span>`;
 
-            card.className =
-                "brand-card";
+        if (brand.logo) {
 
+            const logoURL = githubRawURL(
+                `${DOCS_FOLDER}/${brand.id}/${brand.logo}`
+            );
 
-            card.innerHTML = `
-
-                <div class="brand-icon">
-
-                    <span>🤖</span>
-
-                </div>
-
-                <div>
-
-                    <strong>
-                        ${escapeHTML(
-                            brand.name
-                        )}
-                    </strong>
-
-                    <small>
-                        Visualizza robot e guide
-                    </small>
-
-                </div>
-
+            logoHTML = `
+                <img
+                    src="${logoURL}"
+                    alt="${escapeHTML(brand.name)}"
+                >
             `;
-
-
-            card.addEventListener(
-                "click",
-                () => showBrand(brand)
-            );
-
-
-            brandsGrid.appendChild(
-                card
-            );
-
-
-            /*
-                Carica il logo
-                senza bloccare
-                le altre card.
-            */
-
-            findBrandLogo(
-                brand
-            ).then(
-                logo => {
-
-                    if (!logo) {
-                        return;
-                    }
-
-
-                    const image =
-                        document.createElement(
-                            "img"
-                        );
-
-
-                    image.src =
-                        logo;
-
-
-                    image.alt =
-                        brand.name;
-
-
-                    image.onload =
-                        () => {
-
-                            const icon =
-                                card.querySelector(
-                                    ".brand-icon"
-                                );
-
-                            icon.innerHTML = "";
-
-                            icon.appendChild(
-                                image
-                            );
-
-                        };
-
-                }
-            );
-
         }
-    );
-}
 
+        card.innerHTML = `
+            <div class="brand-icon">
+                ${logoHTML}
+            </div>
 
-/*
-==================================================
-APRI MARCA
-==================================================
-*/
+            <div>
+                <strong>
+                    ${escapeHTML(brand.name)}
+                </strong>
 
-async function showBrand(
-    brand
-) {
+                <small>
+                    Visualizza robot e guide
+                </small>
+            </div>
+        `;
 
-    currentBrand =
-        brand;
+        card.addEventListener(
+            "click",
+            () => showBrand(brand)
+        );
 
-
-    homeView.classList.add(
-        "hidden"
-    );
-
-    robotView.classList.add(
-        "hidden"
-    );
-
-    guideView.classList.add(
-        "hidden"
-    );
-
-    brandView.classList.remove(
-        "hidden"
-    );
-
-
-    brandName.textContent =
-        brand.name;
-
-
-    brandDescription.textContent =
-        "Robot e documentazione "
-        + brand.name;
-
-
-    robotsGrid.innerHTML = `
-        <div class="loading">
-            Caricamento robot...
-        </div>
-    `;
-
-
-    guidesGrid.innerHTML = `
-        <div class="loading">
-            Caricamento guide...
-        </div>
-    `;
-
-
-    await Promise.all([
-        loadRobots(brand),
-        loadGuides(brand)
-    ]);
-
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+        brandsGrid.appendChild(card);
     });
 }
 
 
-/*
-==================================================
-CARICA ROBOT
-==================================================
-*/
+// ===============================
+// PAGINA MARCA
+// ===============================
 
-async function loadRobots(
-    brand
-) {
+function showBrand(brand) {
+
+    currentBrand = brand;
+
+    homeView.style.display = "none";
+    robotView.style.display = "none";
+    guideView.style.display = "none";
+
+    brandView.style.display = "block";
+
+    brandTitle.textContent = brand.name;
+
+    loadRobots(brand);
+    loadGuides(brand);
+}
+
+
+// ===============================
+// ROBOT
+// ===============================
+
+function loadRobots(brand) {
 
     robotsGrid.innerHTML = "";
 
+    const robots = brand.robots || [];
 
-    if (
-        !brand.robots ||
-        brand.robots.length === 0
-    ) {
+    if (robots.length === 0) {
 
         robotsGrid.innerHTML = `
             <div class="loading">
@@ -551,366 +273,181 @@ async function loadRobots(
         return;
     }
 
+    robots.forEach(robot => {
 
-    brand.robots.forEach(
-        robotFolder => {
+        const robotData = {
+            ...robot,
+            name: formatName(robot.id),
+            brand: brand
+        };
 
-            const robot =
-                readRobot(
-                    brand,
-                    robotFolder
-                );
-
-
-            createRobotCard(
-                robot
-            );
-
-        }
-    );
+        createRobotCard(robotData);
+    });
 }
 
 
-/*
-==================================================
-LEGGE ROBOT
-==================================================
+function createRobotCard(robot) {
 
-Non usa API.
+    const card = document.createElement("div");
 
-I file vengono cercati
-secondo una struttura standard.
-==================================================
-*/
+    card.className = "robot-card";
 
-function readRobot(
-    brand,
-    folderName
-) {
+    let imageHTML = `
+        <div class="robot-card-image placeholder">
+            🤖
+        </div>
+    `;
 
-    const path =
-        `${DOCS_FOLDER}/${brand.id}/robots/${folderName}`;
+    if (robot.image) {
 
-
-    return {
-
-        name:
-            formatName(
-                folderName
-            ),
-
-        path,
-
-        markdown:
-            `${path}/${folderName}.md`,
-
-        image:
-            `${path}/${folderName}.jpg`,
-
-        files: []
-
-    };
-}
-
-
-/*
-==================================================
-CREA CARD ROBOT
-==================================================
-*/
-
-function createRobotCard(
-    robot
-) {
-
-    const card =
-        document.createElement(
-            "div"
+        const imageURL = githubRawURL(
+            `${DOCS_FOLDER}/${robot.brand.id}/robots/${robot.id}/${robot.image}`
         );
 
-
-    card.className =
-        "robot-card";
-
-
-    const imageHTML = `
-
-        <div class="robot-card-image">
-
-            <img
-                src="${githubRawURL(
-                    robot.image
-                )}"
-                alt="${escapeHTML(
-                    robot.name
-                )}"
-                onerror="
-                    this.parentElement.innerHTML =
-                    '<div class=&quot;robot-card-image no-image&quot;>🤖</div>'
-                "
-            >
-
-        </div>
-
-    `;
-
+        imageHTML = `
+            <div class="robot-card-image">
+                <img
+                    src="${imageURL}"
+                    alt="${escapeHTML(robot.name)}"
+                >
+            </div>
+        `;
+    }
 
     card.innerHTML = `
-
         ${imageHTML}
 
-        <div class="robot-card-info">
+        <div class="robot-card-content">
 
             <h3>
-                ${escapeHTML(
-                    robot.name
-                )}
+                ${escapeHTML(robot.name)}
             </h3>
 
-            <p>
-                Apri scheda robot →
-            </p>
+            <span>
+                Apri scheda →
+            </span>
 
         </div>
-
     `;
-
 
     card.addEventListener(
         "click",
         () => showRobot(robot)
     );
 
-
-    robotsGrid.appendChild(
-        card
-    );
+    robotsGrid.appendChild(card);
 }
 
 
-/*
-==================================================
-APRI ROBOT
-==================================================
-*/
+// ===============================
+// PAGINA ROBOT
+// ===============================
 
-async function showRobot(
-    robot
-) {
+async function showRobot(robot) {
 
-    brandView.classList.add(
-        "hidden"
-    );
+    brandView.style.display = "none";
+    homeView.style.display = "none";
+    guideView.style.display = "none";
 
-    guideView.classList.add(
-        "hidden"
-    );
+    robotView.style.display = "block";
 
-    robotView.classList.remove(
-        "hidden"
-    );
+    robotTitle.textContent = robot.name;
 
+    // IMMAGINE
+    if (robot.image) {
 
-    robotName.textContent =
-        robot.name;
-
-
-    robotDescription.textContent =
-        "Documentazione "
-        + robot.name;
-
-
-    /*
-        IMMAGINE
-    */
-
-    robotImage.src =
-        githubRawURL(
-            robot.image
+        robotImage.src = githubRawURL(
+            `${DOCS_FOLDER}/${robot.brand.id}/robots/${robot.id}/${robot.image}`
         );
 
-    robotImage.alt =
-        robot.name;
+        robotImage.alt = robot.name;
+        robotImage.style.display = "block";
 
-    robotImage.style.display =
-        "block";
+    } else {
 
-    robotImagePlaceholder.style.display =
-        "none";
-
-
-    robotImage.onerror =
-        () => {
-
-            robotImage.style.display =
-                "none";
-
-            robotImagePlaceholder.style.display =
-                "flex";
-
-        };
+        robotImage.removeAttribute("src");
+        robotImage.style.display = "none";
+    }
 
 
-    /*
-        FILE
-    */
-
+    // FILE / PDF
     robotFiles.innerHTML = "";
 
+    const files = robot.files || [];
 
-    /*
-        Senza API non possiamo
-        sapere automaticamente
-        quali PDF esistono.
+    if (files.length === 0) {
 
-        Quindi i file vengono
-        definiti in content.json
-        quando necessario.
-    */
+        robotFiles.innerHTML = `
+            <div class="loading">
+                Nessun documento disponibile.
+            </div>
+        `;
 
-    if (
-        robot.files &&
-        robot.files.length > 0
-    ) {
+    } else {
 
-        robot.files.forEach(
-            file => {
+        files.forEach(file => {
 
-                const button =
-                    document.createElement(
-                        "a"
-                    );
+            const url = githubRawURL(
+                `${DOCS_FOLDER}/${robot.brand.id}/robots/${robot.id}/${file}`
+            );
 
+            const button = document.createElement("a");
 
-                button.className =
-                    "action-button";
+            button.className = "file-button";
 
+            button.href = url;
+            button.target = "_blank";
+            button.rel = "noopener noreferrer";
 
-                button.href =
-                    githubRawURL(
-                        `${robot.path}/${file}`
-                    );
+            button.textContent = getFileLabel(file);
 
-
-                button.target =
-                    "_blank";
-
-
-                button.rel =
-                    "noopener";
-
-
-                button.textContent =
-                    getFileLabel(
-                        file
-                    );
-
-
-                robotFiles.appendChild(
-                    button
-                );
-
-            }
-        );
-
+            robotFiles.appendChild(button);
+        });
     }
 
 
-    /*
-        MARKDOWN
-    */
+    // MARKDOWN ROBOT
+    robotMarkdown.innerHTML = `
+        <div class="loading">
+            Caricamento...
+        </div>
+    `;
 
-    await loadMarkdown(
-        githubRawURL(
-            robot.markdown
-        ),
-        robotMarkdown
-    );
+    if (robot.markdown) {
 
+        const markdownURL = githubRawURL(
+            `${DOCS_FOLDER}/${robot.brand.id}/robots/${robot.id}/${robot.markdown}`
+        );
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+        await loadMarkdown(
+            markdownURL,
+            robotMarkdown
+        );
+
+    } else {
+
+        robotMarkdown.innerHTML = `
+            <div class="loading">
+                Nessuna documentazione disponibile.
+            </div>
+        `;
+    }
 }
 
 
-/*
-==================================================
-NOME FILE
-==================================================
-*/
+// ===============================
+// GUIDE
+// ===============================
 
-function getFileLabel(
-    filename
-) {
+function loadGuides(brand) {
 
-    const name =
-        filename.replace(
-            /\.[^/.]+$/,
-            ""
-        );
+    guidesList.innerHTML = "";
 
+    const guides = brand.guides || [];
 
-    if (
-        name
-            .toLowerCase()
-            .includes("datasheet")
-    ) {
+    if (guides.length === 0) {
 
-        return "📄 Datasheet";
-
-    }
-
-
-    if (
-        name
-            .toLowerCase()
-            .includes("manuale")
-    ) {
-
-        return "📘 Manuale";
-
-    }
-
-
-    if (
-        name
-            .toLowerCase()
-            .includes("manual")
-    ) {
-
-        return "📘 Manuale";
-
-    }
-
-
-    return "📎 "
-        + formatName(
-            name
-        );
-}
-
-
-/*
-==================================================
-CARICA GUIDE
-==================================================
-*/
-
-async function loadGuides(
-    brand
-) {
-
-    guidesGrid.innerHTML = "";
-
-
-    if (
-        !brand.guides ||
-        brand.guides.length === 0
-    ) {
-
-        guidesGrid.innerHTML = `
+        guidesList.innerHTML = `
             <div class="loading">
                 Nessuna guida inserita.
             </div>
@@ -919,363 +456,163 @@ async function loadGuides(
         return;
     }
 
+    guides.forEach(file => {
 
-    brand.guides.forEach(
-        file => {
+        const button = document.createElement("button");
 
-            createGuideCard(
-                file,
-                brand
-            );
+        button.className = "guide-button";
 
-        }
-    );
-}
+        button.textContent = formatName(file);
 
-
-/*
-==================================================
-CREA CARD GUIDA
-==================================================
-*/
-
-function createGuideCard(
-    file,
-    brand
-) {
-
-    const card =
-        document.createElement(
-            "div"
+        button.addEventListener(
+            "click",
+            () => showGuide(file, brand)
         );
 
-
-    card.className =
-        "guide-card";
-
-
-    const name =
-        formatName(
-            file
-        );
-
-
-    card.innerHTML = `
-
-        <div class="guide-icon">
-            📄
-        </div>
-
-        <h3>
-            ${escapeHTML(
-                name
-            )}
-        </h3>
-
-        <p>
-            Guida ${escapeHTML(
-                brand.name
-            )}
-        </p>
-
-    `;
-
-
-    card.addEventListener(
-        "click",
-        () => showGuide(
-            file,
-            brand
-        )
-    );
-
-
-    guidesGrid.appendChild(
-        card
-    );
-}
-
-
-/*
-==================================================
-APRI GUIDA
-==================================================
-*/
-
-async function showGuide(
-    file,
-    brand
-) {
-
-    brandView.classList.add(
-        "hidden"
-    );
-
-    robotView.classList.add(
-        "hidden"
-    );
-
-    guideView.classList.remove(
-        "hidden"
-    );
-
-
-    guideTitle.textContent =
-        formatName(
-            file
-        );
-
-
-    guideBrand.textContent =
-        brand.name;
-
-
-    await loadMarkdown(
-        githubRawURL(
-            `${DOCS_FOLDER}/${brand.id}/guides/${file}`
-        ),
-        guideMarkdown
-    );
-
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+        guidesList.appendChild(button);
     });
 }
 
 
-/*
-==================================================
-CARICA MARKDOWN
-==================================================
-*/
+async function showGuide(file, brand) {
 
-async function loadMarkdown(
-    url,
-    target
-) {
+    brandView.style.display = "none";
+    homeView.style.display = "none";
+    robotView.style.display = "none";
 
-    target.innerHTML = `
-        <p>
+    guideView.style.display = "block";
+
+    guideTitle.textContent = formatName(file);
+
+    guideMarkdown.innerHTML = `
+        <div class="loading">
             Caricamento...
-        </p>
+        </div>
     `;
 
+    const markdownURL = githubRawURL(
+        `${DOCS_FOLDER}/${brand.id}/guides/${file}`
+    );
+
+    await loadMarkdown(
+        markdownURL,
+        guideMarkdown
+    );
+}
+
+
+// ===============================
+// MARKDOWN
+// ===============================
+
+async function loadMarkdown(url, target) {
 
     try {
 
-        const response =
-            await fetch(url);
-
+        const response = await fetch(
+            `${url}?v=${Date.now()}`,
+            {
+                cache: "no-store"
+            }
+        );
 
         if (!response.ok) {
-
             throw new Error(
-                "Impossibile caricare il file."
+                `Errore caricamento Markdown: ${response.status}`
             );
-
         }
 
+        const markdown = await response.text();
 
-        const markdown =
-            await response.text();
-
-
-        target.innerHTML =
-            marked.parse(
-                markdown
-            );
-
+        target.innerHTML = marked.parse(markdown);
 
     } catch (error) {
 
+        console.error(error);
+
         target.innerHTML = `
-
-            <h2>
-                Errore
-            </h2>
-
-            <p>
-                ${escapeHTML(
-                    error.message
-                )}
-            </p>
-
+            <div class="loading">
+                Impossibile caricare il documento.
+            </div>
         `;
-
     }
 }
 
 
-/*
-==================================================
-HTML ESCAPE
-==================================================
-*/
-
-function escapeHTML(
-    text
-) {
-
-    return String(text)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-}
-
-
-/*
-==================================================
-TORNA HOME
-==================================================
-*/
+// ===============================
+// HOME
+// ===============================
 
 function showHome() {
 
-    homeView.classList.remove(
-        "hidden"
-    );
+    homeView.style.display = "block";
+    brandView.style.display = "none";
+    robotView.style.display = "none";
+    guideView.style.display = "none";
 
-    brandView.classList.add(
-        "hidden"
-    );
+    currentBrand = null;
 
-    robotView.classList.add(
-        "hidden"
-    );
+    if (searchInput) {
+        searchInput.value = "";
+    }
 
-    guideView.classList.add(
-        "hidden"
-    );
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+    renderBrands();
 }
 
 
-document
-    .getElementById(
-        "backToBrands"
-    )
-    .addEventListener(
-        "click",
-        showHome
+// ===============================
+// RICERCA
+// ===============================
+
+if (searchInput) {
+
+    searchInput.addEventListener(
+        "input",
+        event => {
+            renderBrands(event.target.value);
+        }
     );
+}
 
 
-document
-    .getElementById(
-        "logo"
-    )
-    .addEventListener(
-        "click",
-        showHome
-    );
+// ===============================
+// NAVIGAZIONE
+// ===============================
 
+if (backButton) {
 
-/*
-==================================================
-TORNA ALLA MARCA DAL ROBOT
-==================================================
-*/
-
-document
-    .getElementById(
-        "backToBrandFromRobot"
-    )
-    .addEventListener(
+    backButton.addEventListener(
         "click",
         () => {
 
-            showBrand(
-                currentBrand
-            );
+            if (robotView.style.display === "block") {
 
+                showBrand(currentBrand);
+
+            } else if (guideView.style.display === "block") {
+
+                showBrand(currentBrand);
+
+            } else {
+
+                showHome();
+            }
         }
     );
+}
 
 
-/*
-==================================================
-TORNA ALLA MARCA DALLA GUIDA
-==================================================
-*/
+if (logoButton) {
 
-document
-    .getElementById(
-        "backToBrandFromGuide"
-    )
-    .addEventListener(
+    logoButton.addEventListener(
         "click",
-        () => {
-
-            showBrand(
-                currentBrand
-            );
-
-        }
+        showHome
     );
+}
 
 
-/*
-==================================================
-RICERCA
-==================================================
-*/
-
-searchInput.addEventListener(
-    "input",
-    () => {
-
-        const query =
-            searchInput.value
-                .trim()
-                .toLowerCase();
-
-
-        if (
-            !brandView.classList.contains(
-                "hidden"
-            )
-        ) {
-
-            return;
-
-        }
-
-
-        renderBrands(
-            query
-        );
-
-    }
-);
-
-
-/*
-==================================================
-AVVIO
-==================================================
-*/
+// ===============================
+// AVVIO
+// ===============================
 
 loadContent();
