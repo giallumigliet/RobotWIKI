@@ -291,37 +291,35 @@ async function loadBrands() {
 
 async function findBrandLogo(brand) {
 
-    const logoFormats = [
-        "png",
-        "jpg",
-        "jpeg",
-        "webp",
-        "svg",
-        "gif"
-    ];
+    try {
 
-    for (const format of logoFormats) {
+        const response = await fetch(
+            `https://api.github.com/repos/${OWNER}/${REPO}/contents/docs/${brand}`
+        );
 
-        const path = `docs/${brand}/logo.${format}`;
-
-        try {
-
-            const response = await fetch(
-                `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`
-            );
-
-            if (response.ok) {
-                return githubRawURL(path);
-            }
-
-        } catch (error) {
-            console.error("Errore ricerca logo:", error);
+        if (!response.ok) {
+            return null;
         }
+
+        const files = await response.json();
+
+        const logo = files.find(item =>
+            item.type === "file" &&
+            /^logo\.(png|jpg|jpeg|webp|svg|gif)$/i.test(item.name)
+        );
+
+        return logo ? logo.download_url : null;
+
+    } catch (error) {
+
+        console.error(
+            `Errore ricerca logo ${brand}:`,
+            error
+        );
+
+        return null;
     }
-
-    return null;
 }
-
 
 /*
 ==================================================
@@ -329,23 +327,17 @@ MOSTRA MARCHE
 ==================================================
 */
 
-async function renderBrands(
-    filter = ""
-) {
+async function renderBrands(filter = "") {
 
     brandsGrid.innerHTML = "";
-
 
     const filtered =
         allBrands.filter(
             brand =>
                 brand.name
                     .toLowerCase()
-                    .includes(
-                        filter.toLowerCase()
-                    )
+                    .includes(filter.toLowerCase())
         );
-
 
     if (filtered.length === 0) {
 
@@ -358,27 +350,17 @@ async function renderBrands(
         return;
     }
 
-
     for (const brand of filtered) {
 
         const card =
             document.createElement("div");
 
-
-        card.className =
-            "brand-card";
-
-
-        /*
-        Cerca automaticamente il logo
-        */
+        card.className = "brand-card";
 
         const logo =
             await findBrandLogo(brand.name);
 
-
         card.innerHTML = `
-
             <div class="brand-icon">
 
                 ${
@@ -397,7 +379,6 @@ async function renderBrands(
             </div>
 
             <div>
-
                 <strong>
                     ${formatName(brand.name)}
                 </strong>
@@ -405,21 +386,19 @@ async function renderBrands(
                 <small>
                     Visualizza robot e guide
                 </small>
-
             </div>
-
         `;
-
 
         card.addEventListener(
             "click",
             () => showBrand(brand)
         );
 
-
         brandsGrid.appendChild(card);
     }
 }
+
+
 /*
 ==================================================
 APRI MARCA
