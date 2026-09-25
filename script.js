@@ -1,232 +1,563 @@
 /*
-    ==========================================
-    CONFIGURAZIONE ROBOT
-    ==========================================
-
-    Qui aggiungi le informazioni sui robot.
-
-    Il campo "file" deve corrispondere
-    al file presente dentro /docs/marca/
-
-    Esempio:
-
-    docs/fanuc/r2000.md
+==================================================
+CONFIGURAZIONE WIKI
+==================================================
 */
 
-
-const robots = {
+const wiki = {
 
     fanuc: {
 
         name: "FANUC",
 
-        description: "Robot industriali FANUC",
+        icon: "🟡",
+
+        description:
+            "Robot industriali FANUC con cui ho avuto esperienza.",
+
 
         robots: [
+
             {
-                name: "R-2000",
-                file: "docs/fanuc/r2000.md"
+                name: "R-2000iC",
+
+                image:
+                    "assets/fanuc/r2000.jpg",
+
+                description:
+                    "Robot antropomorfo a 6 assi per applicazioni industriali.",
+
+                datasheet:
+                    "docs/fanuc/robots/r2000-datasheet.pdf",
+
+                manual:
+                    "docs/fanuc/robots/r2000-manuale.pdf",
+
+                markdown:
+                    "docs/fanuc/robots/r2000.md"
             },
+
 
             {
                 name: "LR Mate 200iD",
-                file: "docs/fanuc/lr-mate-200id.md"
-            },
+
+                image:
+                    "assets/fanuc/lr-mate-200id.jpg",
+
+                description:
+                    "Robot compatto per applicazioni di assemblaggio e manipolazione.",
+
+                datasheet:
+                    "docs/fanuc/robots/lr-mate-200id-datasheet.pdf",
+
+                manual:
+                    "docs/fanuc/robots/lr-mate-200id-manuale.pdf",
+
+                markdown:
+                    "docs/fanuc/robots/lr-mate-200id.md"
+            }
+
+        ],
+
+
+        guides: [
 
             {
-                name: "M-20iA",
-                file: "docs/fanuc/m20ia.md"
+                title: "Programmazione",
+
+                icon: "💻",
+
+                description:
+                    "Programmazione, TP, KAREL e procedure.",
+
+                file:
+                    "docs/fanuc/guides/programmazione.md"
+            },
+
+
+            {
+                title: "Manutenzione",
+
+                icon: "🔧",
+
+                description:
+                    "Manutenzione ordinaria e procedure.",
+
+                file:
+                    "docs/fanuc/guides/manutenzione.md"
+            },
+
+
+            {
+                title: "Errori",
+
+                icon: "⚠️",
+
+                description:
+                    "Errori, allarmi e relative soluzioni.",
+
+                file:
+                    "docs/fanuc/guides/errori.md"
+            },
+
+
+            {
+                title: "Controller",
+
+                icon: "🎛️",
+
+                description:
+                    "Risoluzione problemi e configurazione controller.",
+
+                file:
+                    "docs/fanuc/guides/controller.md"
             }
+
         ]
+
     },
 
+
+    /*
+    ==================================================
+    STAUBLI
+    ==================================================
+    */
 
     staubli: {
 
         name: "STAUBLI",
 
-        description: "Robot industriali STAUBLI",
+        icon: "🔵",
+
+        description:
+            "Robot industriali STAUBLI con cui ho avuto esperienza.",
+
 
         robots: [
+
             {
                 name: "TX2-60",
-                file: "docs/staubli/tx2-60.md"
-            },
+
+                image:
+                    "assets/staubli/tx2-60.jpg",
+
+                description:
+                    "Robot industriale STAUBLI TX2-60.",
+
+                datasheet:
+                    "docs/staubli/robots/tx2-60-datasheet.pdf",
+
+                manual:
+                    "docs/staubli/robots/tx2-60-manuale.pdf",
+
+                markdown:
+                    "docs/staubli/robots/tx2-60.md"
+            }
+
+        ],
+
+
+        guides: [
 
             {
-                name: "TX2-90",
-                file: "docs/staubli/tx2-90.md"
+                title: "Programmazione",
+
+                icon: "💻",
+
+                description:
+                    "Programmazione VAL3 e procedure.",
+
+                file:
+                    "docs/staubli/guides/programmazione.md"
+            },
+
+
+            {
+                title: "Manutenzione",
+
+                icon: "🔧",
+
+                description:
+                    "Procedure di manutenzione.",
+
+                file:
+                    "docs/staubli/guides/manutenzione.md"
+            },
+
+
+            {
+                title: "Errori",
+
+                icon: "⚠️",
+
+                description:
+                    "Allarmi e diagnostica.",
+
+                file:
+                    "docs/staubli/guides/errori.md"
             }
+
         ]
+
     },
 
+
+    /*
+    ==================================================
+    ABB
+    ==================================================
+    */
 
     abb: {
 
         name: "ABB",
 
-        description: "Robot industriali ABB",
+        icon: "🔴",
 
-        robots: [
+        description:
+            "Robot industriali ABB.",
+
+        robots: [],
+
+        guides: [
+
             {
-                name: "IRB 120",
-                file: "docs/abb/irb-120.md"
+                title: "Programmazione",
+
+                icon: "💻",
+
+                description:
+                    "Programmazione RAPID.",
+
+                file:
+                    "docs/abb/guides/programmazione.md"
             }
+
         ]
+
     },
 
+
+    /*
+    ==================================================
+    KUKA
+    ==================================================
+    */
 
     kuka: {
 
         name: "KUKA",
 
-        description: "Robot industriali KUKA",
+        icon: "🟠",
 
-        robots: [
-            {
-                name: "KR 6",
-                file: "docs/kuka/kr-6.md"
-            }
-        ]
+        description:
+            "Robot industriali KUKA.",
+
+        robots: [],
+
+        guides: []
+
     }
 
 };
 
 
 /*
-    ==========================================
-    ELEMENTI HTML
-    ==========================================
+==================================================
+ELEMENTI DOM
+==================================================
 */
 
-const brandsSection =
-    document.getElementById("brands");
+const homeView =
+    document.getElementById("homeView");
 
-const robotSection =
-    document.getElementById("robotSection");
+const brandView =
+    document.getElementById("brandView");
 
-const documentSection =
-    document.getElementById("documentSection");
+const robotView =
+    document.getElementById("robotView");
 
-const robotList =
-    document.getElementById("robotList");
+const guideView =
+    document.getElementById("guideView");
 
-const brandTitle =
-    document.getElementById("brandTitle");
+
+const brandsGrid =
+    document.getElementById("brandsGrid");
+
+const robotsGrid =
+    document.getElementById("robotsGrid");
+
+const guidesGrid =
+    document.getElementById("guidesGrid");
+
+
+const brandName =
+    document.getElementById("brandName");
 
 const brandDescription =
     document.getElementById("brandDescription");
 
-const documentTitle =
-    document.getElementById("documentTitle");
+const brandLogo =
+    document.getElementById("brandLogo");
 
-const markdownContent =
-    document.getElementById("markdownContent");
 
-const backButton =
-    document.getElementById("backButton");
+const robotName =
+    document.getElementById("robotName");
 
-const backToRobots =
-    document.getElementById("backToRobots");
+const robotDescription =
+    document.getElementById("robotDescription");
+
+const robotImage =
+    document.getElementById("robotImage");
+
+const datasheetButton =
+    document.getElementById("datasheetButton");
+
+const manualButton =
+    document.getElementById("manualButton");
+
+const robotMarkdown =
+    document.getElementById("robotMarkdown");
+
+
+const guideTitle =
+    document.getElementById("guideTitle");
+
+const guideCategory =
+    document.getElementById("guideCategory");
+
+const guideMarkdown =
+    document.getElementById("guideMarkdown");
+
 
 const searchInput =
     document.getElementById("searchInput");
 
 
 /*
-    ==========================================
-    MARCHE
-    ==========================================
+==================================================
+STATO
+==================================================
 */
 
-const brandButtons =
-    document.querySelectorAll(".brand-card");
-
-
-brandButtons.forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        const brand =
-            button.dataset.brand;
-
-        showBrand(brand);
-
-    });
-
-});
+let currentBrand = null;
 
 
 /*
-    ==========================================
-    MOSTRA ROBOT DI UNA MARCA
-    ==========================================
+==================================================
+HOME
+==================================================
 */
 
-function showBrand(brand) {
+function showHome() {
 
-    const data = robots[brand];
+    homeView.classList.remove("hidden");
 
-    if (!data) {
+    brandView.classList.add("hidden");
+
+    robotView.classList.add("hidden");
+
+    guideView.classList.add("hidden");
+
+}
+
+
+/*
+==================================================
+CREA LE CARDS DELLE MARCHE
+==================================================
+*/
+
+function renderBrands(filter = "") {
+
+    brandsGrid.innerHTML = "";
+
+
+    Object.entries(wiki).forEach(
+        ([id, brand]) => {
+
+            const searchText =
+                brand.name.toLowerCase();
+
+
+            if (
+                filter &&
+                !searchText.includes(filter)
+            ) {
+
+                return;
+
+            }
+
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "brand-card";
+
+
+            card.innerHTML = `
+
+                <div class="brand-icon">
+                    ${brand.icon}
+                </div>
+
+                <div>
+
+                    <strong>
+                        ${brand.name}
+                    </strong>
+
+                    <small>
+                        ${brand.robots.length}
+                        robot ·
+                        ${brand.guides.length}
+                        guide
+                    </small>
+
+                </div>
+
+            `;
+
+
+            card.addEventListener(
+                "click",
+                () => showBrand(id)
+            );
+
+
+            brandsGrid.appendChild(card);
+
+        }
+    );
+
+}
+
+
+/*
+==================================================
+APRI MARCA
+==================================================
+*/
+
+function showBrand(brandId) {
+
+    const brand =
+        wiki[brandId];
+
+
+    if (!brand) {
         return;
     }
 
 
-    // Nasconde le altre sezioni
-
-    brandsSection.classList.add("hidden");
-
-    documentSection.classList.add("hidden");
+    currentBrand = brandId;
 
 
-    // Mostra la sezione robot
+    homeView.classList.add("hidden");
 
-    robotSection.classList.remove("hidden");
+    robotView.classList.add("hidden");
+
+    guideView.classList.add("hidden");
+
+    brandView.classList.remove("hidden");
 
 
-    // Titolo
-
-    brandTitle.textContent =
-        data.name;
+    brandName.textContent =
+        brand.name;
 
     brandDescription.textContent =
-        data.description;
+        brand.description;
+
+    brandLogo.textContent =
+        brand.icon;
 
 
-    // Pulisce la lista
+    renderRobots(brand);
 
-    robotList.innerHTML = "";
-
-
-    // Crea i pulsanti
-
-    data.robots.forEach(robot => {
-
-        const button =
-            document.createElement("button");
-
-        button.className =
-            "robot-button";
+    renderGuides(brand);
 
 
-        button.innerHTML = `
-            <div class="robot-name">
-                🤖 ${robot.name}
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/*
+==================================================
+CREA ROBOT CARDS
+==================================================
+*/
+
+function renderRobots(brand) {
+
+    robotsGrid.innerHTML = "";
+
+
+    if (brand.robots.length === 0) {
+
+        robotsGrid.innerHTML = `
+            <p>
+                Nessun robot inserito.
+            </p>
+        `;
+
+        return;
+
+    }
+
+
+    brand.robots.forEach(robot => {
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "robot-card";
+
+
+        card.innerHTML = `
+
+            <div class="robot-card-image">
+
+                <img
+                    src="${robot.image}"
+                    alt="${robot.name}"
+                    onerror="
+                        this.style.display='none'
+                    "
+                >
+
             </div>
 
-            <div class="robot-file">
-                ${robot.file}
+
+            <div class="robot-card-info">
+
+                <h3>
+                    ${robot.name}
+                </h3>
+
+                <p>
+                    ${robot.description}
+                </p>
+
             </div>
+
         `;
 
 
-        button.addEventListener(
+        card.addEventListener(
             "click",
-            () => openMarkdown(robot)
+            () => showRobot(robot)
         );
 
 
-        robotList.appendChild(button);
+        robotsGrid.appendChild(card);
 
     });
 
@@ -234,23 +565,217 @@ function showBrand(brand) {
 
 
 /*
-    ==========================================
-    APRE IL FILE MARKDOWN
-    ==========================================
+==================================================
+CREA GUIDE
+==================================================
 */
 
-async function openMarkdown(robot) {
+function renderGuides(brand) {
+
+    guidesGrid.innerHTML = "";
+
+
+    if (brand.guides.length === 0) {
+
+        guidesGrid.innerHTML = `
+            <p>
+                Nessuna guida inserita.
+            </p>
+        `;
+
+        return;
+
+    }
+
+
+    brand.guides.forEach(guide => {
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "guide-card";
+
+
+        card.innerHTML = `
+
+            <div class="guide-icon">
+                ${guide.icon}
+            </div>
+
+            <h3>
+                ${guide.title}
+            </h3>
+
+            <p>
+                ${guide.description}
+            </p>
+
+        `;
+
+
+        card.addEventListener(
+            "click",
+            () => showGuide(guide)
+        );
+
+
+        guidesGrid.appendChild(card);
+
+    });
+
+}
+
+
+/*
+==================================================
+APRI ROBOT
+==================================================
+*/
+
+async function showRobot(robot) {
+
+    brandView.classList.add("hidden");
+
+    guideView.classList.add("hidden");
+
+    robotView.classList.remove("hidden");
+
+
+    robotName.textContent =
+        robot.name;
+
+    robotDescription.textContent =
+        robot.description;
+
+    robotImage.src =
+        robot.image;
+
+
+    /*
+        PDF
+    */
+
+    if (robot.datasheet) {
+
+        datasheetButton.href =
+            robot.datasheet;
+
+        datasheetButton.style.display =
+            "inline-block";
+
+    } else {
+
+        datasheetButton.style.display =
+            "none";
+
+    }
+
+
+    if (robot.manual) {
+
+        manualButton.href =
+            robot.manual;
+
+        manualButton.style.display =
+            "inline-block";
+
+    } else {
+
+        manualButton.style.display =
+            "none";
+
+    }
+
+
+    /*
+        Markdown specifico del robot
+    */
+
+    if (robot.markdown) {
+
+        await loadMarkdown(
+            robot.markdown,
+            robotMarkdown
+        );
+
+    } else {
+
+        robotMarkdown.innerHTML = "";
+
+    }
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/*
+==================================================
+APRI GUIDA
+==================================================
+*/
+
+async function showGuide(guide) {
+
+    brandView.classList.add("hidden");
+
+    robotView.classList.add("hidden");
+
+    guideView.classList.remove("hidden");
+
+
+    guideTitle.textContent =
+        guide.title;
+
+    guideCategory.textContent =
+        wiki[currentBrand].name;
+
+
+    await loadMarkdown(
+        guide.file,
+        guideMarkdown
+    );
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/*
+==================================================
+CARICA MARKDOWN
+==================================================
+*/
+
+async function loadMarkdown(
+    file,
+    target
+) {
+
+    target.innerHTML = `
+        <p>Caricamento...</p>
+    `;
+
 
     try {
 
         const response =
-            await fetch(robot.file);
+            await fetch(file);
 
 
         if (!response.ok) {
 
             throw new Error(
-                `File non trovato: ${robot.file}`
+                "File non trovato: " + file
             );
 
         }
@@ -260,57 +785,26 @@ async function openMarkdown(robot) {
             await response.text();
 
 
-        /*
-            Converte Markdown -> HTML
-        */
-
-        markdownContent.innerHTML =
+        target.innerHTML =
             marked.parse(markdown);
-
-
-        documentTitle.textContent =
-            robot.name;
-
-
-        /*
-            Cambia schermata
-        */
-
-        robotSection.classList.add(
-            "hidden"
-        );
-
-        documentSection.classList.remove(
-            "hidden"
-        );
-
-
-        /*
-            Torna all'inizio della pagina
-        */
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
 
 
     } catch (error) {
 
-        markdownContent.innerHTML = `
+        target.innerHTML = `
+
             <h2>Errore</h2>
 
             <p>
-                Non è stato possibile caricare
-                il file Markdown.
+                Impossibile caricare
+                questo documento.
             </p>
 
-            <pre>${error.message}</pre>
-        `;
+            <pre>
+${error.message}
+            </pre>
 
-        documentSection.classList.remove(
-            "hidden"
-        );
+        `;
 
     }
 
@@ -318,67 +812,47 @@ async function openMarkdown(robot) {
 
 
 /*
-    ==========================================
-    TORNA ALLE MARCHE
-    ==========================================
+==================================================
+NAVIGAZIONE
+==================================================
 */
 
-backButton.addEventListener(
-    "click",
-    () => {
+document
+    .getElementById("backToBrands")
+    .addEventListener(
+        "click",
+        showHome
+    );
 
-        robotSection.classList.add(
-            "hidden"
-        );
 
-        documentSection.classList.add(
-            "hidden"
-        );
+document
+    .getElementById("backToBrandFromRobot")
+    .addEventListener(
+        "click",
+        () => {
 
-        brandsSection.classList.remove(
-            "hidden"
-        );
+            showBrand(currentBrand);
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+        }
+    );
 
-    }
-);
+
+document
+    .getElementById("backToBrandFromGuide")
+    .addEventListener(
+        "click",
+        () => {
+
+            showBrand(currentBrand);
+
+        }
+    );
 
 
 /*
-    ==========================================
-    TORNA ALLA LISTA ROBOT
-    ==========================================
-*/
-
-backToRobots.addEventListener(
-    "click",
-    () => {
-
-        documentSection.classList.add(
-            "hidden"
-        );
-
-        robotSection.classList.remove(
-            "hidden"
-        );
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-
-    }
-);
-
-
-/*
-    ==========================================
-    RICERCA
-    ==========================================
+==================================================
+RICERCA
+==================================================
 */
 
 searchInput.addEventListener(
@@ -391,59 +865,32 @@ searchInput.addEventListener(
                 .trim();
 
 
-        if (!query) {
+        /*
+            Se siamo nella home,
+            cerca le marche
+        */
 
-            brandButtons.forEach(button => {
-                button.style.display = "";
-            });
+        if (
+            !brandView.classList.contains(
+                "hidden"
+            )
+        ) {
 
             return;
+
         }
 
 
-        /*
-            Cerca tra le marche
-        */
-
-        brandButtons.forEach(button => {
-
-            const brand =
-                button.dataset.brand;
-
-            const data =
-                robots[brand];
-
-
-            let found =
-                data.name
-                    .toLowerCase()
-                    .includes(query);
-
-
-            /*
-                Cerca anche nei nomi
-                dei robot
-            */
-
-            data.robots.forEach(robot => {
-
-                if (
-                    robot.name
-                        .toLowerCase()
-                        .includes(query)
-                ) {
-
-                    found = true;
-
-                }
-
-            });
-
-
-            button.style.display =
-                found ? "" : "none";
-
-        });
+        renderBrands(query);
 
     }
 );
+
+
+/*
+==================================================
+AVVIO
+==================================================
+*/
+
+renderBrands();
