@@ -98,18 +98,7 @@ body {
     color: var(--blue-light);
 }
 
-.logo::before {
-    content: "";
 
-    width: 8px;
-    height: 8px;
-
-    border-radius: 50%;
-
-    background: var(--blue);
-
-    box-shadow: 0 0 14px rgba(77, 184, 255, 0.8);
-}
 
 .search {
     width: 300px;
