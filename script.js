@@ -1,271 +1,44 @@
 /*
 ==================================================
-CONFIGURAZIONE WIKI
+CONFIGURAZIONE GITHUB
 ==================================================
+
+MODIFICA SOLO QUESTE DUE RIGHE.
+
+Esempio:
+
+https://github.com/mariorossi/robot-wiki
+
+diventa:
+
+OWNER = "mariorossi"
+REPO  = "robot-wiki"
 */
 
-const wiki = {
+const OWNER = "TUO_USERNAME";
 
-    fanuc: {
-
-        name: "FANUC",
-
-        icon: "🟡",
-
-        description:
-            "Robot industriali FANUC con cui ho avuto esperienza.",
-
-
-        robots: [
-
-            {
-                name: "R-2000iC",
-
-                image:
-                    "assets/fanuc/r2000.jpg",
-
-                description:
-                    "Robot antropomorfo a 6 assi per applicazioni industriali.",
-
-                datasheet:
-                    "docs/fanuc/robots/r2000-datasheet.pdf",
-
-                manual:
-                    "docs/fanuc/robots/r2000-manuale.pdf",
-
-                markdown:
-                    "docs/fanuc/robots/r2000.md"
-            },
-
-
-            {
-                name: "LR Mate 200iD",
-
-                image:
-                    "assets/fanuc/lr-mate-200id.jpg",
-
-                description:
-                    "Robot compatto per applicazioni di assemblaggio e manipolazione.",
-
-                datasheet:
-                    "docs/fanuc/robots/lr-mate-200id-datasheet.pdf",
-
-                manual:
-                    "docs/fanuc/robots/lr-mate-200id-manuale.pdf",
-
-                markdown:
-                    "docs/fanuc/robots/lr-mate-200id.md"
-            }
-
-        ],
-
-
-        guides: [
-
-            {
-                title: "Programmazione",
-
-                icon: "💻",
-
-                description:
-                    "Programmazione, TP, KAREL e procedure.",
-
-                file:
-                    "docs/fanuc/guides/programmazione.md"
-            },
-
-
-            {
-                title: "Manutenzione",
-
-                icon: "🔧",
-
-                description:
-                    "Manutenzione ordinaria e procedure.",
-
-                file:
-                    "docs/fanuc/guides/manutenzione.md"
-            },
-
-
-            {
-                title: "Errori",
-
-                icon: "⚠️",
-
-                description:
-                    "Errori, allarmi e relative soluzioni.",
-
-                file:
-                    "docs/fanuc/guides/errori.md"
-            },
-
-
-            {
-                title: "Controller",
-
-                icon: "🎛️",
-
-                description:
-                    "Risoluzione problemi e configurazione controller.",
-
-                file:
-                    "docs/fanuc/guides/controller.md"
-            }
-
-        ]
-
-    },
-
-
-    /*
-    ==================================================
-    STAUBLI
-    ==================================================
-    */
-
-    staubli: {
-
-        name: "STAUBLI",
-
-        icon: "🔵",
-
-        description:
-            "Robot industriali STAUBLI con cui ho avuto esperienza.",
-
-
-        robots: [
-
-            {
-                name: "TX2-60",
-
-                image:
-                    "assets/staubli/tx2-60.jpg",
-
-                description:
-                    "Robot industriale STAUBLI TX2-60.",
-
-                datasheet:
-                    "docs/staubli/robots/tx2-60-datasheet.pdf",
-
-                manual:
-                    "docs/staubli/robots/tx2-60-manuale.pdf",
-
-                markdown:
-                    "docs/staubli/robots/tx2-60.md"
-            }
-
-        ],
-
-
-        guides: [
-
-            {
-                title: "Programmazione",
-
-                icon: "💻",
-
-                description:
-                    "Programmazione VAL3 e procedure.",
-
-                file:
-                    "docs/staubli/guides/programmazione.md"
-            },
-
-
-            {
-                title: "Manutenzione",
-
-                icon: "🔧",
-
-                description:
-                    "Procedure di manutenzione.",
-
-                file:
-                    "docs/staubli/guides/manutenzione.md"
-            },
-
-
-            {
-                title: "Errori",
-
-                icon: "⚠️",
-
-                description:
-                    "Allarmi e diagnostica.",
-
-                file:
-                    "docs/staubli/guides/errori.md"
-            }
-
-        ]
-
-    },
-
-
-    /*
-    ==================================================
-    ABB
-    ==================================================
-    */
-
-    abb: {
-
-        name: "ABB",
-
-        icon: "🔴",
-
-        description:
-            "Robot industriali ABB.",
-
-        robots: [],
-
-        guides: [
-
-            {
-                title: "Programmazione",
-
-                icon: "💻",
-
-                description:
-                    "Programmazione RAPID.",
-
-                file:
-                    "docs/abb/guides/programmazione.md"
-            }
-
-        ]
-
-    },
-
-
-    /*
-    ==================================================
-    KUKA
-    ==================================================
-    */
-
-    kuka: {
-
-        name: "KUKA",
-
-        icon: "🟠",
-
-        description:
-            "Robot industriali KUKA.",
-
-        robots: [],
-
-        guides: []
-
-    }
-
-};
+const REPO = "TUO_REPOSITORY";
 
 
 /*
 ==================================================
-ELEMENTI DOM
+CONFIGURAZIONE
+==================================================
+*/
+
+const DOCS_FOLDER = "docs";
+
+const GITHUB_API =
+    "https://api.github.com/repos/"
+    + OWNER
+    + "/"
+    + REPO
+    + "/contents/";
+
+
+/*
+==================================================
+ELEMENTI HTML
 ==================================================
 */
 
@@ -298,8 +71,8 @@ const brandName =
 const brandDescription =
     document.getElementById("brandDescription");
 
-const brandLogo =
-    document.getElementById("brandLogo");
+const brandIcon =
+    document.getElementById("brandIcon");
 
 
 const robotName =
@@ -311,28 +84,36 @@ const robotDescription =
 const robotImage =
     document.getElementById("robotImage");
 
-const datasheetButton =
-    document.getElementById("datasheetButton");
+const robotImagePlaceholder =
+    document.getElementById(
+        "robotImagePlaceholder"
+    );
 
-const manualButton =
-    document.getElementById("manualButton");
+const robotFiles =
+    document.getElementById("robotFiles");
 
 const robotMarkdown =
-    document.getElementById("robotMarkdown");
+    document.getElementById(
+        "robotMarkdown"
+    );
 
 
 const guideTitle =
     document.getElementById("guideTitle");
 
-const guideCategory =
-    document.getElementById("guideCategory");
+const guideBrand =
+    document.getElementById("guideBrand");
 
 const guideMarkdown =
-    document.getElementById("guideMarkdown");
+    document.getElementById(
+        "guideMarkdown"
+    );
 
 
 const searchInput =
-    document.getElementById("searchInput");
+    document.getElementById(
+        "searchInput"
+    );
 
 
 /*
@@ -343,95 +124,251 @@ STATO
 
 let currentBrand = null;
 
+let allBrands = [];
+
 
 /*
 ==================================================
-HOME
+CONVERSIONE NOME FILE
 ==================================================
+
+r_2000ic
+↓
+R 2000ic
+
+programmazione_base
+↓
+Programmazione Base
+
+gestione_allarmi
+↓
+Gestione Allarmi
 */
 
-function showHome() {
+function formatName(filename) {
 
-    homeView.classList.remove("hidden");
+    /*
+        Rimuove estensione
+    */
 
-    brandView.classList.add("hidden");
+    let name =
+        filename.replace(
+            /\.[^/.]+$/,
+            ""
+        );
 
-    robotView.classList.add("hidden");
 
-    guideView.classList.add("hidden");
+    /*
+        "_" diventa spazio
+        e la parola successiva
+        inizia con maiuscola
+    */
+
+    name =
+        name
+            .split("_")
+            .map(word => {
+
+                if (!word) {
+                    return "";
+                }
+
+                return (
+                    word.charAt(0).toUpperCase()
+                    +
+                    word.slice(1)
+                );
+
+            })
+            .join(" ");
+
+
+    return name;
 
 }
 
 
 /*
 ==================================================
-CREA LE CARDS DELLE MARCHE
+CHIAMATA GITHUB API
 ==================================================
 */
 
-function renderBrands(filter = "") {
+async function githubList(path) {
+
+    const response =
+        await fetch(
+            GITHUB_API + path
+        );
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            "GitHub API error: "
+            + response.status
+        );
+
+    }
+
+
+    return await response.json();
+
+}
+
+
+/*
+==================================================
+SCOPRE LE MARCHE
+==================================================
+*/
+
+async function loadBrands() {
+
+    try {
+
+        brandsGrid.innerHTML = `
+            <div class="loading">
+                Caricamento...
+            </div>
+        `;
+
+
+        const items =
+            await githubList(
+                DOCS_FOLDER
+            );
+
+
+        /*
+            Solo cartelle
+        */
+
+        const folders =
+            items.filter(
+                item =>
+                    item.type === "dir"
+            );
+
+
+        allBrands =
+            folders.map(folder => ({
+
+                id: folder.name,
+
+                name:
+                    formatName(
+                        folder.name
+                    ),
+
+                path:
+                    folder.path
+
+            }));
+
+
+        renderBrands();
+
+
+    } catch (error) {
+
+        brandsGrid.innerHTML = `
+
+            <div class="loading">
+
+                Impossibile leggere
+                il repository GitHub.
+
+                <br><br>
+
+                ${error.message}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/*
+==================================================
+MOSTRA MARCHE
+==================================================
+*/
+
+function renderBrands(
+    filter = ""
+) {
 
     brandsGrid.innerHTML = "";
 
 
-    Object.entries(wiki).forEach(
-        ([id, brand]) => {
-
-            const searchText =
-                brand.name.toLowerCase();
-
-
-            if (
-                filter &&
-                !searchText.includes(filter)
-            ) {
-
-                return;
-
-            }
+    const filtered =
+        allBrands.filter(
+            brand =>
+                brand.name
+                    .toLowerCase()
+                    .includes(
+                        filter.toLowerCase()
+                    )
+        );
 
 
-            const card =
-                document.createElement("div");
+    if (filtered.length === 0) {
 
-            card.className =
-                "brand-card";
+        brandsGrid.innerHTML = `
+            <div class="loading">
+                Nessuna marca trovata.
+            </div>
+        `;
 
+        return;
 
-            card.innerHTML = `
-
-                <div class="brand-icon">
-                    ${brand.icon}
-                </div>
-
-                <div>
-
-                    <strong>
-                        ${brand.name}
-                    </strong>
-
-                    <small>
-                        ${brand.robots.length}
-                        robot ·
-                        ${brand.guides.length}
-                        guide
-                    </small>
-
-                </div>
-
-            `;
+    }
 
 
-            card.addEventListener(
-                "click",
-                () => showBrand(id)
-            );
+    filtered.forEach(brand => {
+
+        const card =
+            document.createElement("div");
 
 
-            brandsGrid.appendChild(card);
+        card.className =
+            "brand-card";
 
-        }
-    );
+
+        card.innerHTML = `
+
+            <div class="brand-icon">
+                🤖
+            </div>
+
+            <div>
+
+                <strong>
+                    ${brand.name}
+                </strong>
+
+                <small>
+                    Documentazione
+                </small>
+
+            </div>
+
+        `;
+
+
+        card.addEventListener(
+            "click",
+            () => showBrand(brand)
+        );
+
+
+        brandsGrid.appendChild(card);
+
+    });
 
 }
 
@@ -442,42 +379,61 @@ APRI MARCA
 ==================================================
 */
 
-function showBrand(brandId) {
+async function showBrand(brand) {
 
-    const brand =
-        wiki[brandId];
-
-
-    if (!brand) {
-        return;
-    }
+    currentBrand = brand;
 
 
-    currentBrand = brandId;
+    homeView.classList.add(
+        "hidden"
+    );
 
+    robotView.classList.add(
+        "hidden"
+    );
 
-    homeView.classList.add("hidden");
+    guideView.classList.add(
+        "hidden"
+    );
 
-    robotView.classList.add("hidden");
-
-    guideView.classList.add("hidden");
-
-    brandView.classList.remove("hidden");
+    brandView.classList.remove(
+        "hidden"
+    );
 
 
     brandName.textContent =
         brand.name;
 
     brandDescription.textContent =
-        brand.description;
+        "Robot e documentazione "
+        + brand.name;
 
-    brandLogo.textContent =
-        brand.icon;
+    brandIcon.textContent =
+        "🤖";
 
 
-    renderRobots(brand);
+    robotsGrid.innerHTML = `
+        <div class="loading">
+            Caricamento robot...
+        </div>
+    `;
 
-    renderGuides(brand);
+
+    guidesGrid.innerHTML = `
+        <div class="loading">
+            Caricamento guide...
+        </div>
+    `;
+
+
+    /*
+        Carica in parallelo
+    */
+
+    await Promise.all([
+        loadRobots(brand),
+        loadGuides(brand)
+    ]);
 
 
     window.scrollTo({
@@ -490,139 +446,297 @@ function showBrand(brandId) {
 
 /*
 ==================================================
-CREA ROBOT CARDS
+CARICA ROBOT
 ==================================================
 */
 
-function renderRobots(brand) {
+async function loadRobots(brand) {
 
-    robotsGrid.innerHTML = "";
+    try {
+
+        const path =
+            `${DOCS_FOLDER}/${brand.id}/robots`;
 
 
-    if (brand.robots.length === 0) {
+        const items =
+            await githubList(path);
+
+
+        /*
+            Ogni cartella dentro
+            robots = un robot
+        */
+
+        const robotFolders =
+            items.filter(
+                item =>
+                    item.type === "dir"
+            );
+
+
+        robotsGrid.innerHTML = "";
+
+
+        if (
+            robotFolders.length === 0
+        ) {
+
+            robotsGrid.innerHTML = `
+                <div class="loading">
+                    Nessun robot inserito.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        /*
+            Carichiamo il contenuto
+            di ogni cartella robot
+        */
+
+        for (
+            const folder
+            of robotFolders
+        ) {
+
+            const robot =
+                await readRobot(
+                    folder
+                );
+
+
+            createRobotCard(
+                robot
+            );
+
+        }
+
+
+    } catch (error) {
 
         robotsGrid.innerHTML = `
-            <p>
-                Nessun robot inserito.
-            </p>
-        `;
 
-        return;
+            <div class="loading">
+
+                Nessuna cartella
+                <strong>robots</strong>
+                trovata.
+
+            </div>
+
+        `;
 
     }
-
-
-    brand.robots.forEach(robot => {
-
-        const card =
-            document.createElement("div");
-
-        card.className =
-            "robot-card";
-
-
-        card.innerHTML = `
-
-            <div class="robot-card-image">
-
-                <img
-                    src="${robot.image}"
-                    alt="${robot.name}"
-                    onerror="
-                        this.style.display='none'
-                    "
-                >
-
-            </div>
-
-
-            <div class="robot-card-info">
-
-                <h3>
-                    ${robot.name}
-                </h3>
-
-                <p>
-                    ${robot.description}
-                </p>
-
-            </div>
-
-        `;
-
-
-        card.addEventListener(
-            "click",
-            () => showRobot(robot)
-        );
-
-
-        robotsGrid.appendChild(card);
-
-    });
 
 }
 
 
 /*
 ==================================================
-CREA GUIDE
+LEGGE UN ROBOT
 ==================================================
 */
 
-function renderGuides(brand) {
+async function readRobot(
+    folder
+) {
 
-    guidesGrid.innerHTML = "";
+    const items =
+        await githubList(
+            folder.path
+        );
 
 
-    if (brand.guides.length === 0) {
+    const markdown =
+        items.find(
+            item =>
+                item.type === "file"
+                &&
+                item.name
+                    .toLowerCase()
+                    .endsWith(".md")
+        );
 
-        guidesGrid.innerHTML = `
-            <p>
-                Nessuna guida inserita.
-            </p>
+
+    const image =
+        items.find(
+            item =>
+                item.type === "file"
+                &&
+                isImage(
+                    item.name
+                )
+        );
+
+
+    const files =
+        items.filter(
+            item =>
+                item.type === "file"
+                &&
+                !isImage(
+                    item.name
+                )
+                &&
+                !item.name
+                    .toLowerCase()
+                    .endsWith(".md")
+        );
+
+
+    return {
+
+        name:
+            formatName(
+                folder.name
+            ),
+
+        path:
+            folder.path,
+
+        markdown,
+
+        image,
+
+        files
+
+    };
+
+}
+
+
+/*
+==================================================
+CONTROLLA IMMAGINE
+==================================================
+*/
+
+function isImage(
+    filename
+) {
+
+    const extension =
+        filename
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+
+    return [
+        "jpg",
+        "jpeg",
+        "png",
+        "webp",
+        "gif"
+    ].includes(
+        extension
+    );
+
+}
+
+
+/*
+==================================================
+CREA CARD ROBOT
+==================================================
+*/
+
+function createRobotCard(
+    robot
+) {
+
+    const card =
+        document.createElement("div");
+
+
+    card.className =
+        "robot-card";
+
+
+    /*
+        Immagine
+    */
+
+    let imageHTML;
+
+
+    if (robot.image) {
+
+        imageHTML = `
+
+            <img
+                src="${githubRawURL(
+                    robot.image
+                )}"
+                alt="${escapeHTML(
+                    robot.name
+                )}"
+            >
+
         `;
 
-        return;
+    } else {
+
+        imageHTML = `
+            <div class="robot-card-image no-image">
+                🤖
+            </div>
+        `;
 
     }
 
 
-    brand.guides.forEach(guide => {
+    /*
+        Se c'è immagine
+        mettiamo la card-image
+    */
 
-        const card =
-            document.createElement("div");
+    if (robot.image) {
 
-        card.className =
-            "guide-card";
+        imageHTML = `
 
+            <div class="robot-card-image">
 
-        card.innerHTML = `
+                ${imageHTML}
 
-            <div class="guide-icon">
-                ${guide.icon}
             </div>
-
-            <h3>
-                ${guide.title}
-            </h3>
-
-            <p>
-                ${guide.description}
-            </p>
 
         `;
 
-
-        card.addEventListener(
-            "click",
-            () => showGuide(guide)
-        );
+    }
 
 
-        guidesGrid.appendChild(card);
+    card.innerHTML = `
 
-    });
+        ${imageHTML}
+
+        <div class="robot-card-info">
+
+            <h3>
+                ${escapeHTML(
+                    robot.name
+                )}
+            </h3>
+
+            <p>
+                Apri scheda robot →
+            </p>
+
+        </div>
+
+    `;
+
+
+    card.addEventListener(
+        "click",
+        () => showRobot(robot)
+    );
+
+
+    robotsGrid.appendChild(card);
 
 }
 
@@ -633,75 +747,130 @@ APRI ROBOT
 ==================================================
 */
 
-async function showRobot(robot) {
+async function showRobot(
+    robot
+) {
 
-    brandView.classList.add("hidden");
+    brandView.classList.add(
+        "hidden"
+    );
 
-    guideView.classList.add("hidden");
+    guideView.classList.add(
+        "hidden"
+    );
 
-    robotView.classList.remove("hidden");
+    robotView.classList.remove(
+        "hidden"
+    );
 
 
     robotName.textContent =
         robot.name;
 
-    robotDescription.textContent =
-        robot.description;
 
-    robotImage.src =
-        robot.image;
+    robotDescription.textContent =
+        "Documentazione "
+        + robot.name;
 
 
     /*
-        PDF
+        IMMAGINE
     */
 
-    if (robot.datasheet) {
+    if (robot.image) {
 
-        datasheetButton.href =
-            robot.datasheet;
+        robotImage.src =
+            githubRawURL(
+                robot.image
+            );
 
-        datasheetButton.style.display =
-            "inline-block";
+        robotImage.alt =
+            robot.name;
+
+        robotImage.style.display =
+            "block";
+
+        robotImagePlaceholder.style.display =
+            "none";
 
     } else {
 
-        datasheetButton.style.display =
+        robotImage.style.display =
             "none";
 
-    }
-
-
-    if (robot.manual) {
-
-        manualButton.href =
-            robot.manual;
-
-        manualButton.style.display =
-            "inline-block";
-
-    } else {
-
-        manualButton.style.display =
-            "none";
+        robotImagePlaceholder.style.display =
+            "flex";
 
     }
 
 
     /*
-        Markdown specifico del robot
+        FILE
+    */
+
+    robotFiles.innerHTML = "";
+
+
+    robot.files.forEach(
+        file => {
+
+            const button =
+                document.createElement("a");
+
+
+            button.className =
+                "action-button";
+
+
+            button.href =
+                githubRawURL(
+                    file
+                );
+
+
+            button.target =
+                "_blank";
+
+
+            button.rel =
+                "noopener";
+
+
+            button.textContent =
+                getFileLabel(
+                    file.name
+                );
+
+
+            robotFiles.appendChild(
+                button
+            );
+
+        }
+    );
+
+
+    /*
+        MARKDOWN
     */
 
     if (robot.markdown) {
 
         await loadMarkdown(
-            robot.markdown,
+            githubRawURL(
+                robot.markdown
+            ),
             robotMarkdown
         );
 
     } else {
 
-        robotMarkdown.innerHTML = "";
+        robotMarkdown.innerHTML = `
+            <p>
+                Nessuna documentazione
+                Markdown disponibile.
+            </p>
+        `;
 
     }
 
@@ -716,28 +885,235 @@ async function showRobot(robot) {
 
 /*
 ==================================================
+NOME DEI FILE PDF
+==================================================
+*/
+
+function getFileLabel(
+    filename
+) {
+
+    const name =
+        filename
+            .replace(
+                /\.[^/.]+$/,
+                ""
+            );
+
+
+    if (
+        name
+            .toLowerCase()
+            .includes("datasheet")
+    ) {
+
+        return "📄 Datasheet";
+
+    }
+
+
+    if (
+        name
+            .toLowerCase()
+            .includes("manuale")
+    ) {
+
+        return "📘 Manuale";
+
+    }
+
+
+    if (
+        name
+            .toLowerCase()
+            .includes("manual")
+    ) {
+
+        return "📘 Manuale";
+
+    }
+
+
+    return "📎 "
+        + formatName(
+            name
+        );
+
+}
+
+
+/*
+==================================================
+CARICA GUIDE
+==================================================
+*/
+
+async function loadGuides(
+    brand
+) {
+
+    try {
+
+        const path =
+            `${DOCS_FOLDER}/${brand.id}/guides`;
+
+
+        const items =
+            await githubList(path);
+
+
+        const markdownFiles =
+            items.filter(
+                item =>
+                    item.type === "file"
+                    &&
+                    item.name
+                        .toLowerCase()
+                        .endsWith(".md")
+            );
+
+
+        guidesGrid.innerHTML = "";
+
+
+        if (
+            markdownFiles.length === 0
+        ) {
+
+            guidesGrid.innerHTML = `
+                <div class="loading">
+                    Nessuna guida inserita.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        markdownFiles.forEach(
+            file => {
+
+                createGuideCard(
+                    file,
+                    brand
+                );
+
+            }
+        );
+
+
+    } catch (error) {
+
+        guidesGrid.innerHTML = `
+            <div class="loading">
+                Nessuna cartella
+                <strong>guides</strong>
+                trovata.
+            </div>
+        `;
+
+    }
+
+}
+
+
+/*
+==================================================
+CREA CARD GUIDA
+==================================================
+*/
+
+function createGuideCard(
+    file,
+    brand
+) {
+
+    const card =
+        document.createElement("div");
+
+
+    card.className =
+        "guide-card";
+
+
+    const name =
+        formatName(
+            file.name
+        );
+
+
+    card.innerHTML = `
+
+        <div class="guide-icon">
+            📄
+        </div>
+
+        <h3>
+            ${escapeHTML(name)}
+        </h3>
+
+        <p>
+            Guida ${escapeHTML(
+                brand.name
+            )}
+        </p>
+
+    `;
+
+
+    card.addEventListener(
+        "click",
+        () => showGuide(
+            file,
+            brand
+        )
+    );
+
+
+    guidesGrid.appendChild(
+        card
+    );
+
+}
+
+
+/*
+==================================================
 APRI GUIDA
 ==================================================
 */
 
-async function showGuide(guide) {
+async function showGuide(
+    file,
+    brand
+) {
 
-    brandView.classList.add("hidden");
+    brandView.classList.add(
+        "hidden"
+    );
 
-    robotView.classList.add("hidden");
+    robotView.classList.add(
+        "hidden"
+    );
 
-    guideView.classList.remove("hidden");
+    guideView.classList.remove(
+        "hidden"
+    );
 
 
     guideTitle.textContent =
-        guide.title;
+        formatName(
+            file.name
+        );
 
-    guideCategory.textContent =
-        wiki[currentBrand].name;
+
+    guideBrand.textContent =
+        brand.name;
 
 
     await loadMarkdown(
-        guide.file,
+        githubRawURL(file),
         guideMarkdown
     );
 
@@ -757,25 +1133,27 @@ CARICA MARKDOWN
 */
 
 async function loadMarkdown(
-    file,
+    url,
     target
 ) {
 
     target.innerHTML = `
-        <p>Caricamento...</p>
+        <p>
+            Caricamento...
+        </p>
     `;
 
 
     try {
 
         const response =
-            await fetch(file);
+            await fetch(url);
 
 
         if (!response.ok) {
 
             throw new Error(
-                "File non trovato: " + file
+                "Impossibile caricare il file."
             );
 
         }
@@ -786,23 +1164,24 @@ async function loadMarkdown(
 
 
         target.innerHTML =
-            marked.parse(markdown);
+            marked.parse(
+                markdown
+            );
 
 
     } catch (error) {
 
         target.innerHTML = `
 
-            <h2>Errore</h2>
+            <h2>
+                Errore
+            </h2>
 
             <p>
-                Impossibile caricare
-                questo documento.
+                ${escapeHTML(
+                    error.message
+                )}
             </p>
-
-            <pre>
-${error.message}
-            </pre>
 
         `;
 
@@ -813,37 +1192,151 @@ ${error.message}
 
 /*
 ==================================================
-NAVIGAZIONE
+URL FILE GITHUB
+==================================================
+*/
+
+function githubRawURL(
+    item
+) {
+
+    /*
+        item può essere:
+        - oggetto GitHub API
+        - stringa
+    */
+
+    const path =
+        typeof item === "string"
+            ? item
+            : item.path;
+
+
+    return (
+        "https://raw.githubusercontent.com/"
+        + OWNER
+        + "/"
+        + REPO
+        + "/main/"
+        + path
+    );
+
+}
+
+
+/*
+==================================================
+HTML ESCAPE
+==================================================
+*/
+
+function escapeHTML(
+    text
+) {
+
+    return String(text)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/*
+==================================================
+TORNA HOME
 ==================================================
 */
 
 document
-    .getElementById("backToBrands")
-    .addEventListener(
-        "click",
-        showHome
-    );
-
-
-document
-    .getElementById("backToBrandFromRobot")
+    .getElementById(
+        "backToBrands"
+    )
     .addEventListener(
         "click",
         () => {
 
-            showBrand(currentBrand);
+            homeView.classList.remove(
+                "hidden"
+            );
+
+            brandView.classList.add(
+                "hidden"
+            );
+
+            robotView.classList.add(
+                "hidden"
+            );
+
+            guideView.classList.add(
+                "hidden"
+            );
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
 
         }
     );
 
 
+/*
+==================================================
+TORNA ALLA MARCA DAL ROBOT
+==================================================
+*/
+
 document
-    .getElementById("backToBrandFromGuide")
+    .getElementById(
+        "backToBrandFromRobot"
+    )
     .addEventListener(
         "click",
         () => {
 
-            showBrand(currentBrand);
+            showBrand(
+                currentBrand
+            );
+
+        }
+    );
+
+
+/*
+==================================================
+TORNA ALLA MARCA DALLA GUIDA
+==================================================
+*/
+
+document
+    .getElementById(
+        "backToBrandFromGuide"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            showBrand(
+                currentBrand
+            );
 
         }
     );
@@ -861,13 +1354,14 @@ searchInput.addEventListener(
 
         const query =
             searchInput.value
-                .toLowerCase()
-                .trim();
+                .trim()
+                .toLowerCase();
 
 
         /*
-            Se siamo nella home,
-            cerca le marche
+            Per ora la ricerca
+            filtra le marche
+            nella home.
         */
 
         if (
@@ -881,7 +1375,9 @@ searchInput.addEventListener(
         }
 
 
-        renderBrands(query);
+        renderBrands(
+            query
+        );
 
     }
 );
@@ -893,4 +1389,4 @@ AVVIO
 ==================================================
 */
 
-renderBrands();
+loadBrands();
