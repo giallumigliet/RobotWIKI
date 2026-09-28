@@ -161,8 +161,7 @@
 
 ### "Mental mapping"
 
-`TP = istruzioni + registri + label + I/O`; non pensarlo come C/Pascal:
-il controllo di flusso è molto più "da controller".
+`TP = istruzioni + registri + label + I/O`.
 
 ## Riferimenti
 
