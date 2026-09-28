@@ -70,7 +70,9 @@
                     "files": []
                 }
             ],
-            "guides": []
+            "guides": [
+                "sintassi.md"
+            ]
         }
     ]
 }
