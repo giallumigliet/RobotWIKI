@@ -4,7 +4,10 @@
             "id": "ABB",
             "logo": "logo.png",
             "robots": [],
-            "guides": []
+            "guides": [
+                "error_troubleshooting.md",
+                "sintassi_RAPID.md"
+            ]
         },
         {
             "id": "fanuc",
