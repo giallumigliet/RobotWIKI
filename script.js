@@ -145,6 +145,10 @@ function getGuideIcon(filename) {
         return "🎯";
     }
 
+    if (name.includes("sintassi")) {
+        return "📋";
+    }
+
     return "📚";
 }
 // =================================
@@ -581,8 +585,17 @@ function loadGuides(brand) {
 
     guidesGrid.innerHTML = "";
 
-    const guides =
-        brand.guides || [];
+    const guides = [...(brand.guides || [])].sort((a, b) => {
+        const specialA = getGuideIcon(a) !== "📚";
+        const specialB = getGuideIcon(b) !== "📚";
+        if (specialA && !specialB) {
+            return -1;
+        }
+        if (!specialA && specialB) {
+            return 1;
+        }
+        return a.localeCompare(b);
+    });
 
     if (guides.length === 0) {
 
