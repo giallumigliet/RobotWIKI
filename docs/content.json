@@ -76,6 +76,7 @@
                 }
             ],
             "guides": [
+                "error_troubleshooting.md",
                 "sintassi_VAL3.md"
             ]
         }
