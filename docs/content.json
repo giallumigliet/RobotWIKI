@@ -96,7 +96,13 @@
                 }
             ],
             "guides": [
+                "Architettura.md",
+                "SRS.md",
+                "backup_e_restore.md",
                 "error_troubleshooting.md",
+                "movements.md",
+                "quick_reference.md",
+                "registri_e_segnali.md",
                 "sintassi_VAL3.md"
             ]
         }
