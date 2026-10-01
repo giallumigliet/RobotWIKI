@@ -5,7 +5,6 @@
             "logo": "logo.png",
             "robots": [],
             "guides": [
-                "error_troubleshooting.md",
                 "sintassi_RAPID.md"
             ]
         },
