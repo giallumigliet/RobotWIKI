@@ -5,6 +5,13 @@
             "logo": "logo.png",
             "robots": [],
             "guides": [
+                "RobotStudio.md",
+                "architettura.md",
+                "backup_e_restore.md",
+                "error_troubleshooting.md",
+                "movements.md",
+                "quick_reference.md",
+                "registri_e_segnali.md",
                 "sintassi_RAPID.md"
             ]
         },
