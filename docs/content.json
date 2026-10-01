@@ -20,6 +20,14 @@
             "logo": "logo.png",
             "robots": [
                 {
+                    "id": "P-350iA45",
+                    "markdown": null,
+                    "image": null,
+                    "files": [
+                        "MDS-03901-EN-datasheet.pdf"
+                    ]
+                },
+                {
                     "id": "m-20iD-25",
                     "markdown": null,
                     "image": "m-20iD-25.jpg",
