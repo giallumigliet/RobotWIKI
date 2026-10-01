@@ -14,18 +14,12 @@
             "logo": "logo.png",
             "robots": [
                 {
-                    "id": "m-20iB-25",
-                    "markdown": null,
-                    "image": null,
-                    "files": [
-                        "m20id25.pdf"
-                    ]
-                },
-                {
                     "id": "m-20iD-25",
                     "markdown": null,
                     "image": "m-20iD-25.jpg",
-                    "files": []
+                    "files": [
+                        "m20id25.pdf"
+                    ]
                 }
             ],
             "guides": [
