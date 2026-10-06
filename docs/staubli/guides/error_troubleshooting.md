@@ -1,72 +1,45 @@
 # Errori e Troubleshooting Stäubli
 
-## 1. Metodo
+## 1. MCPES1
 
-Quando compare un errore:
+Errore Hardware che può comparire quando viene scollegato il pendant. Comune su controllori CS8.
 
+Risoluzione:
 ```text
-Errore
+Attaccare pendant
 ↓
-Codice/messaggio
+Premere fungo pendant
 ↓
-Task/program
+Premere fungo HMI
 ↓
-Istruzione
+Resetta da HMI con il tasto blu
 ↓
-Stato robot
+ACKNOWLEDGE dell'errore da Control panel del pendant
 ↓
-I/O e comunicazioni
+Togliere fungo HMI
 ↓
-Causa
+Togliere fungo pendant
 ↓
-Recovery
+Stacca pendant
 ```
+Se l'errore persiste più volte sarà necessario riavviare il controllore.
 
-## 2. Movimento non eseguito
 
+## 2. Unrecognized symbol $
+Aggiungere ADDON relativo alla funzione non riconosciuta.
+
+
+## 3. I/O not linked...
 Controllare:
-- potenza robot;
-- modalità operativa;
-- stato di sicurezza;
-- programma/task;
-- tool;
-- frame;
-- punto;
-- parametri di movimento;
-- eventuali stop o condizioni di attesa.
+- variabili `dio`/`aio` non collegate da software;
+- configurazione I/O scheda;
+- collegamento fisico.
 
-## 3. I/O non funziona
 
-Controllare:
-- collegamento fisico;
-- configurazione I/O;
-- variabile `dio`/`aio`;
-- collegamento al segnale di sistema;
-- interblocchi;
-- stato del task.
+## 4. I/O tutti con un ?????
+Di solito è un problema di configurazione di scheda di rete.
 
-## 4. Comunicazione socket
+Da SYCON:
+- (se PROFINET) verificare che il nome del robot nella scheda sia corretto.
+- (se Ethernet/IP) verificare che l'indirizzo IP del robot nella scheda sia corretto.
 
-Se una comunicazione `sio` non funziona verificare:
-- configurazione della porta;
-- IP/endpoint;
-- timeout;
-- stato della connessione;
-- buffer;
-- formato dei dati;
-- programma che gestisce la comunicazione.
-
-## 5. Recovery
-
-Prima di ripartire verificare:
-- posizione attuale;
-- stato tool;
-- pezzo presente;
-- pinza;
-- I/O;
-- task sospesi;
-- eventuali uscite rimaste attive.
-
-## 6. Regola fondamentale
-
-Non risolvere un errore modificando casualmente parametri di sistema. Conservare prima un backup e individuare la causa dell'allarme.
