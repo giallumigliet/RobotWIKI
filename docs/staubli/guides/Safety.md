@@ -34,7 +34,6 @@ Decidere se attivare solo in modalità automatica.
 ### Asse (LIMITI GIUNTI)
 In seguito all'utilizzo del software BDC (Breaking Distance Calculator) può essere utile limitare i giunti in posizione e la decelerazione massima dei primi tre giunti.
 
-
 ### Test freni (BRAKE TEST)
 Se bisogna fare il Brake Test, indicare i tempi di avviso.
 Decidere se attivare solo in modalità automatica.
@@ -52,12 +51,10 @@ Modo di funzionamento in manuale ☑ e automatico ☑.
 - **Dispositivo di attivazione**: modalità di arresto `SS1`.
 
 ## 8. USCITE
-- **UsoA**: modalità di arresto `Estop`.
-- **UsoB**: modalità di arresto `WorkingMode`.
-- **UsoC**: modalità di arresto `SS2`.
-- **Elettrovalvole**: modalità di arresto `VAL3 senza controllo di sicurezza`.
-
-
+- **UsoA**: segnala `Estop`.
+- **UsoB**: segnala `WorkingMode`.
+- **UsoC**: segnala `SS2`.
+- **Elettrovalvole**: segnala `VAL3 senza controllo di sicurezza`.
 
 
 
