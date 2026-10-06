@@ -506,6 +506,7 @@ function setupRobotImage(robot) {
 }
 
 
+
 function setupRobotFiles(robot) {
 
     robotFiles.innerHTML = "";
@@ -514,7 +515,6 @@ function setupRobotFiles(robot) {
         robot.files || [];
 
     if (files.length === 0) {
-
         return;
     }
 
@@ -530,11 +530,25 @@ function setupRobotFiles(robot) {
         button.className =
             "action-button";
 
-        button.href =
-            url;
+        // PDF → visualizzazione nel browser
+        if (file.toLowerCase().endsWith(".pdf")) {
 
-        button.target =
-            "_blank";
+            button.href =
+                `pdf-viewer.html?file=${encodeURIComponent(url)}`;
+
+            button.target =
+                "_blank";
+
+        } else {
+
+            // Altri file → comportamento normale
+            button.href =
+                url;
+
+            button.target =
+                "_blank";
+
+        }
 
         button.rel =
             "noopener noreferrer";
@@ -545,6 +559,8 @@ function setupRobotFiles(robot) {
         robotFiles.appendChild(button);
     });
 }
+
+
 
 
 async function loadRobotMarkdown(robot) {
