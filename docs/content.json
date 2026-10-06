@@ -98,6 +98,7 @@
             "guides": [
                 "Architettura.md",
                 "SRS.md",
+                "Safety.md",
                 "backup_e_restore.md",
                 "error_troubleshooting.md",
                 "movements.md",
