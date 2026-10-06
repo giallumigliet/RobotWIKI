@@ -510,55 +510,39 @@ function setupRobotImage(robot) {
 function setupRobotFiles(robot) {
 
     robotFiles.innerHTML = "";
-
-    const files =
-        robot.files || [];
+    const files = robot.files || [];
 
     if (files.length === 0) {
         return;
     }
 
     files.forEach(file => {
-
         const url = rawURL(
             `${DOCS_FOLDER}/${robot.brand.id}/robots/${robot.id}/${file}`
         );
 
-        const button =
-            document.createElement("a");
+        const button = document.createElement("a");
+        button.className = "action-button";
+        button.textContent = getFileLabel(file);
+        button.target = "_blank";
+        button.rel = "noopener noreferrer";
 
-        button.className =
-            "action-button";
+        // ==============================
+        // PDF
+        // ==============================
 
-        // PDF → visualizzazione nel browser
         if (file.toLowerCase().endsWith(".pdf")) {
-
-            button.href =
-                `pdf-viewer.html?file=${encodeURIComponent(url)}`;
-
-            button.target =
-                "_blank";
-
-        } else {
-
-            // Altri file → comportamento normale
-            button.href =
-                url;
-
-            button.target =
-                "_blank";
-
+            button.href =  `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(url)}`;
         }
-
-        button.rel =
-            "noopener noreferrer";
-
-        button.textContent =
-            getFileLabel(file);
+        else {
+            button.href = url;
+        }
 
         robotFiles.appendChild(button);
     });
 }
+
+
 
 
 
