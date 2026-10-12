@@ -539,7 +539,7 @@ body {
     background: #fff;
     
     border-radius: 10px;
-    border: 1px solid #d7d7d7;
+    border: 1px solid var(--border);
     
     overflow: hidden;
     position: relative;
