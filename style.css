@@ -536,13 +536,12 @@ body {
 
 .robot-image-container {
     height: 400px;
-
-    background: #f0f3f6;
-
+    background: #fff;
+    
     border-radius: 10px;
-
+    border: 1px solid #d7d7d7;
+    
     overflow: hidden;
-
     position: relative;
 }
 
