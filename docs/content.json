@@ -46,9 +46,10 @@
                 {
                     "id": "m-710id-50m",
                     "markdown": null,
-                    "image": null,
+                    "image": "m-710id-50m.jpg",
                     "files": [
-                        "c.txt"
+                        "c.txt",
+                        "m-710id-50m-datasheet.pdf"
                     ]
                 }
             ],
