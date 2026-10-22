@@ -42,6 +42,14 @@
                     "files": [
                         "m-20id25-datasheet.pdf"
                     ]
+                },
+                {
+                    "id": "m-710id-50m",
+                    "markdown": null,
+                    "image": null,
+                    "files": [
+                        "c.txt"
+                    ]
                 }
             ],
             "guides": [
