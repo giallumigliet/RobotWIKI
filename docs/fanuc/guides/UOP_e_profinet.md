@@ -24,6 +24,14 @@ Quando si utilizza una configurazione senza controllo UOP esterno, verificare an
 $RMT_MASTER
 ```
 
+`$RMT_MASTER=0` gli UOP vengono controllati dal PLC, oppure se gli UOP vengono collegati e controllati dai FLAG (che di fatto simulano il PLC);
+
+`$RMT_MASTER=1` gli UOP vengono controllati da un terminale o PC locale collegato via seriale/Karel;
+
+`$RMT_MASTER=2` gli UOP vengono controllati da un PC supervisore tramite la rete Ethernet (comandi software espliciti via socket, software custom o ROBOGUIDE;
+
+**N.B.** ROBOGUIDE su PC tende a resettare **$RMT_MASTER** a **2**.
+
 ## 4. Profinet
 
 Per utilizzare Profinet è necessario:
