@@ -1,6 +1,6 @@
 # Nome modelli robot Stäubli
 
-La sigla identificativa del modello di un robot Stäubli segue una nomenclatura logica basata sull'architettura cinematica, la taglia, il numero di assi e l'ambiente di applicazione. Un esempio di struttura tipica è: TX2 - 60 L HE.
+La sigla identificativa del modello di un robot Stäubli segue una nomenclatura logica basata sull'architettura cinematica, la taglia, il numero di assi e l'ambiente di applicazione. Un esempio di struttura tipica è: **TX2 - 60 L HE**.
 Ecco il significato dettagliato di ogni elemento della sigla:
 
 ## 1. Prefisso (Architettura e Generazione)
