@@ -21,3 +21,16 @@ Se è disponibile un backup della condizione immediatamente precedente all'uploa
 
 Se non è possibile ripristinare una condizione servo coerente, può essere necessario eseguire nuovamente il mastering secondo la procedura FANUC prevista per il modello.
 
+
+
+
+
+
+### 2. Stato non va in Prod - ROBOGUIDE
+
+Prod dipende dagli UOP, quindi verificare il valore della variabile di sistema `$RMT_MASTER`.
+
+ROBOGUIDE su PC tende a resettare $RMT_MASTER a 2.
+
+Per controllare gli UOP con i FLAG o PLC, $RMT_MASTER deve essere settata a 0.
+
