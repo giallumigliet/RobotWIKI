@@ -466,7 +466,7 @@ function renderLanguages(filter = "") {
 
         card.innerHTML = `
             <div class="brand-icon no-logo">
-                <span></></span>
+                <span>&lt;/&gt;</span>
             </div>
 
             <div>
@@ -517,7 +517,6 @@ function showLanguage(language) {
         card.innerHTML = `
             <div class="guide-icon">📄</div>
             <h3>${escapeHTML(formatName(doc.title || doc.id))}</h3>
-            <p>Apri documento →</p>
         `;
 
         card.addEventListener("click", () => {
