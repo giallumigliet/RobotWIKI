@@ -2,6 +2,7 @@ const OWNER = "giallumigliet";
 const REPO = "RobotWIKI";
 const BRANCH = "main";
 const DOCS_FOLDER = "docs";
+const DOCS_LANGUAGES_FOLDER = "docs_languages";
 
 const RAW_BASE =
     `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/`;
@@ -10,7 +11,7 @@ const CONTENT_URL =
     `${RAW_BASE}${DOCS_FOLDER}/content.json?v=${Date.now()}`;
 
 const LANGUAGES_URL =
-    `${RAW_BASE}${DOCS_FOLDER}/languages-content.json?v=${Date.now()}`;
+    `${RAW_BASE}${DOCS_LANGUAGES_FOLDER}/languages-content.json?v=${Date.now()}`;
 
 
 // =================================
