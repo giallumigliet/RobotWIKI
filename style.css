@@ -258,7 +258,7 @@ body {
 .brand-icon.no-logo span {
     display: block;
 
-    color: var(--blue-light);
+    color: var(--blue);
 
     font-size: 23px;
 }
