@@ -338,7 +338,7 @@ async function loadLanguages() {
                 Impossibile caricare software e linguaggi.
                 <br>
                 <small>
-                    Controlla docs/languages-content.json.
+                    Controlla docs_languages/languages-content.json.
                 </small>
             </div>
         `;
