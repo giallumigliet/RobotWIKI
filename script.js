@@ -9,6 +9,9 @@ const RAW_BASE =
 const CONTENT_URL =
     `${RAW_BASE}${DOCS_FOLDER}/content.json?v=${Date.now()}`;
 
+const LANGUAGES_URL =
+    `${RAW_BASE}${DOCS_FOLDER}/languages-content.json?v=${Date.now()}`;
+
 
 // =================================
 // ELEMENTI HTML
@@ -42,17 +45,17 @@ const guideMarkdown = document.getElementById("guideMarkdown");
 
 const searchInput = document.getElementById("searchInput");
 
-const backToBrands =
-    document.getElementById("backToBrands");
+const backToBrands = document.getElementById("backToBrands");
+const backToBrandFromRobot = document.getElementById("backToBrandFromRobot");
+const backToBrandFromGuide = document.getElementById("backToBrandFromGuide");
+const logoButton = document.getElementById("logo");
 
-const backToBrandFromRobot =
-    document.getElementById("backToBrandFromRobot");
 
-const backToBrandFromGuide =
-    document.getElementById("backToBrandFromGuide");
-
-const logoButton =
-    document.getElementById("logo");
+const languagesGrid = document.getElementById("languagesGrid");
+const languageView = document.getElementById("languageView");
+const languageName = document.getElementById("languageName");
+const languageDocumentsGrid = document.getElementById("languageDocumentsGrid");
+const backToLanguages = document.getElementById("backToLanguages");
 
 
 // =================================
@@ -60,7 +63,10 @@ const logoButton =
 // =================================
 
 let allBrands = [];
+let allLanguages = [];
+
 let currentBrand = null;
+let currentLanguage = null;
 
 
 // =================================
@@ -156,27 +162,28 @@ function getGuideIcon(filename) {
 // =================================
 
 function hideAllViews() {
-
     homeView.classList.add("hidden");
     brandView.classList.add("hidden");
     robotView.classList.add("hidden");
     guideView.classList.add("hidden");
+    languageView.classList.add("hidden");
 }
 
 
 function showHome() {
-
     hideAllViews();
 
     homeView.classList.remove("hidden");
 
     currentBrand = null;
+    currentLanguage = null;
 
     if (searchInput) {
         searchInput.value = "";
     }
 
     renderBrands();
+    renderLanguages();
 }
 
 
@@ -196,6 +203,9 @@ function showBrand(brand) {
 
     loadRobots(brand);
     loadGuides(brand);
+
+    currentLanguage = null;
+    backToBrandFromGuide.textContent = "← Torna alla marca";
 }
 
 
@@ -243,6 +253,9 @@ function showGuide(file) {
         url,
         guideMarkdown
     );
+
+    currentLanguage = null;
+    backToBrandFromGuide.textContent = "← Torna alla marca";
 }
 
 
@@ -293,6 +306,44 @@ async function loadContent() {
         `;
     }
 }
+
+
+
+async function loadLanguages() {
+    if (!languagesGrid) return;
+
+    try {
+        const response = await fetch(LANGUAGES_URL, {
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            throw new Error(
+                `Errore languages-content.json: ${response.status}`
+            );
+        }
+
+        const data = await response.json();
+
+        allLanguages = data.languages || [];
+
+        renderLanguages();
+
+    } catch (error) {
+        console.error(error);
+
+        languagesGrid.innerHTML = `
+            <div class="loading">
+                Impossibile caricare software e linguaggi.
+                <br>
+                <small>
+                    Controlla docs/languages-content.json.
+                </small>
+            </div>
+        `;
+    }
+}
+
 
 
 // =================================
@@ -375,6 +426,129 @@ function renderBrands(filter = "") {
     });
 }
 
+
+function renderLanguages(filter = "") {
+    if (!languagesGrid) return;
+
+    languagesGrid.innerHTML = "";
+
+    const search = filter.toLowerCase().trim();
+
+    const filtered = allLanguages.filter(language => {
+        const title = formatName(language.title || language.id);
+
+        const matchesTitle = title.toLowerCase().includes(search);
+
+        const matchesDocument = (language.documents || []).some(doc =>
+            (doc.title || doc.id || "").toLowerCase().includes(search)
+        );
+
+        return matchesTitle || matchesDocument;
+    });
+
+    if (filtered.length === 0) {
+        languagesGrid.innerHTML = `
+            <div class="loading">
+                Nessun software o linguaggio trovato.
+            </div>
+        `;
+        return;
+    }
+
+    filtered.forEach(language => {
+        const card = document.createElement("div");
+
+        card.className = "brand-card";
+
+        const title = formatName(language.title || language.id);
+        const count = (language.documents || []).length;
+
+        card.innerHTML = `
+            <div class="brand-icon no-logo">
+                <span>💻</span>
+            </div>
+
+            <div>
+                <strong>${escapeHTML(title)}</strong>
+                <small>
+                    ${count} ${count === 1 ? "documento" : "documenti"}
+                </small>
+            </div>
+        `;
+
+        card.addEventListener("click", () => {
+            showLanguage(language);
+        });
+
+        languagesGrid.appendChild(card);
+    });
+}
+
+
+function showLanguage(language) {
+    currentBrand = null;
+    currentLanguage = language;
+
+    hideAllViews();
+    languageView.classList.remove("hidden");
+
+    languageName.textContent =
+        formatName(language.title || language.id);
+
+    languageDocumentsGrid.innerHTML = "";
+
+    const documents = language.documents || [];
+
+    if (documents.length === 0) {
+        languageDocumentsGrid.innerHTML = `
+            <div class="loading">
+                Nessun documento disponibile.
+            </div>
+        `;
+        return;
+    }
+
+    documents.forEach(doc => {
+        const card = document.createElement("div");
+
+        card.className = "guide-card";
+
+        card.innerHTML = `
+            <div class="guide-icon">📄</div>
+            <h3>${escapeHTML(formatName(doc.title || doc.id))}</h3>
+            <p>Apri documento →</p>
+        `;
+
+        card.addEventListener("click", () => {
+            showLanguageDocument(language, doc);
+        });
+
+        languageDocumentsGrid.appendChild(card);
+    });
+}
+
+
+function showLanguageDocument(language, doc) {
+    currentBrand = null;
+    currentLanguage = language;
+
+    hideAllViews();
+    guideView.classList.remove("hidden");
+
+    guideBrand.textContent =
+        formatName(language.title || language.id);
+
+    guideTitle.textContent =
+        formatName(doc.title || doc.id);
+
+    guideMarkdown.innerHTML = `
+        <div class="loading">Caricamento...</div>
+    `;
+
+    const url = rawURL(`docs_languages/${doc.path}`);
+
+    loadMarkdown(url, guideMarkdown);
+}
 
 // =================================
 // ROBOT
@@ -717,18 +891,19 @@ if (backToBrandFromRobot) {
 
 
 if (backToBrandFromGuide) {
-
-    backToBrandFromGuide.addEventListener(
-        "click",
-        () => {
-
-            if (currentBrand) {
-                showBrand(currentBrand);
-            } else {
-                showHome();
-            }
+    backToBrandFromGuide.addEventListener("click", () => {
+        if (currentLanguage) {
+            showLanguage(currentLanguage);
+        } else if (currentBrand) {
+            showBrand(currentBrand);
+        } else {
+            showHome();
         }
-    );
+    });
+}
+
+if (backToLanguages) {
+    backToLanguages.addEventListener("click", showHome);
 }
 
 
@@ -738,15 +913,12 @@ if (backToBrandFromGuide) {
 
 if (searchInput) {
 
-    searchInput.addEventListener(
-        "input",
-        event => {
+    searchInput.addEventListener("input", event => {
+    const query = event.target.value;
 
-            renderBrands(
-                event.target.value
-            );
-        }
-    );
+    renderBrands(query);
+    renderLanguages(query);
+});
 }
 
 
@@ -755,3 +927,4 @@ if (searchInput) {
 // =================================
 
 loadContent();
+loadLanguages();
