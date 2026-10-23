@@ -466,7 +466,7 @@ function renderLanguages(filter = "") {
 
         card.innerHTML = `
             <div class="brand-icon no-logo">
-                <span>💻</span>
+                <span></></span>
             </div>
 
             <div>
