@@ -1,36 +1,44 @@
-name: Generate content.json
+
+name: Generate RobotWIKI content
 
 on:
   push:
     branches:
       - main
+    paths-ignore:
+      - "docs/content.json"
+      - "docs_languages/languages-content.json"
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  generate-content:
-
+  generate:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Generate content.json
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Generate JSON files
         run: python generate-content.py
 
-      - name: Save content.json
+      - name: Commit generated JSON files
         run: |
-
           git config user.name "github-actions[bot]"
-
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add docs/content.json
+          git add docs/content.json docs_languages/languages-content.json
 
-          git diff --cached --quiet || \
-          git commit -m "Update content.json"
-
-          git push
+          if ! git diff --cached --quiet; then
+            git commit -m "Update generated content JSON"
+            git push
+          else
+            echo "I JSON sono già aggiornati."
+          fi
