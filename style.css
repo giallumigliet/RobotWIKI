@@ -257,10 +257,9 @@ body {
 
 .brand-icon.no-logo span {
     display: block;
-
     color: var(--blue);
-
     font-size: 23px;
+    font-weight: bold;
 }
 
 .brand-card strong {
