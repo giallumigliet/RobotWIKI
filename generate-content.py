@@ -7,7 +7,7 @@ DOCS = Path("docs")
 DOCS_LANGUAGES = Path("docs_languages")
 
 OUTPUT = DOCS / "content.json"
-LANGUAGES_OUTPUT = DOCS / "languages-content.json"
+LANGUAGES_OUTPUT = DOCS_LANGUAGES / "languages-content.json"
 
 IMAGE_EXTENSIONS = {
     ".jpg", ".jpeg", ".png", ".webp", ".gif"
@@ -171,7 +171,7 @@ def generate_languages():
             "documents": documents
         })
 
-    DOCS.mkdir(parents=True, exist_ok=True)
+    DOCS_LANGUAGES.mkdir(parents=True, exist_ok=True)
 
     LANGUAGES_OUTPUT.write_text(
         json.dumps(
