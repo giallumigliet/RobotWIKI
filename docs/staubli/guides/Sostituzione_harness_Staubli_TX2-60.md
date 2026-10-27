@@ -17,7 +17,8 @@ Il robot Stäubli TX2-60 presenta le seguenti zone con carter:
 - **D**: zona "Inner Link top"
 - **E**: zona "Elbow"
 
-![Robot covers](./Robot-covers.png)
+<img src="https://github.com/giallumigliet/RobotWIKI/docs/staubli/guides/Robot-covers.png" alt="Robot covers" width="25%">
+
 
 ## 1. Materiale e attrezzatura
 
