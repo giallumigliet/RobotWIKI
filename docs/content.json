@@ -125,7 +125,8 @@
                 "nome_modelli_robot.md",
                 "quick_reference.md",
                 "registri_e_segnali.md",
-                "sintassi_VAL3.md"
+                "sintassi_VAL3.md",
+                "valvole.md"
             ]
         }
     ]
