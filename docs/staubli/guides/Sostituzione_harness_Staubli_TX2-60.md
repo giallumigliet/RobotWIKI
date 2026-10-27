@@ -40,10 +40,10 @@ Il robot Stäubli TX2-60 presenta le seguenti zone con carter:
 ## 2. Azioni preliminari
 
 1.  **Portare il robot in posizione di riferimento.** Dal pendant aprire
-    `Robot > Calibration > Reference` e selezionare `Factory Marks`. Allineare gli assi ai riferimenti di fabbrica (circa 0°). Il J3 viene invece portato a circa 90° per agevolare l'accesso.
+    `Robot > Calibration` e selezionare `Factory Marks`. Allineare gli assi ai riferimenti di fabbrica (circa 0°). Il J3 viene invece portato a circa 90° per agevolare l'accesso.
 2.  **Se un asse non può essere mosso in jog normalmente**, usare lo sblocco
     freni.
-3.  Dal menu `Robot > Calibration`, creare e salvare un riferimento del
+3.  Dal menu `Robot > References`, creare e salvare un riferimento del
     robot (per esempio `REF1`) nella posizione di lavoro. Annotare i
     valori degli assi e verificare che il riferimento sia stato
     memorizzato correttamente.
@@ -220,7 +220,7 @@ pulegge e carter.
 Eseguire i controlli con la procedura di riavvio e collaudo prevista da
 Stäubli e dalle regole di sicurezza del sito.
 
--   **Riferimenti e calibrazione:**  segni pennarello e scotch allineati, valore giunti uguale al riferimento preso prima della manutenzione (in Robot>Calibration). Eventualmente riallineare il giunto 4.
+-   **Riferimenti e calibrazione:**  segni pennarello e scotch allineati, il valore giunti deve uguale al riferimento preso prima della manutenzione (in Robot>Calibration). Eventualmente riallineare il giunto 4.
 -   **Movimento degli assi:** controllare ogni asse lungo tutta la corsa (così da controllare tutte le fasi dei motori).
 -   **Motori, encoder e freni:** verificare che ogni comando agisca
     sull'asse corretto, che gli encoder forniscano valori coerenti e che
