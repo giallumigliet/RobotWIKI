@@ -8,6 +8,17 @@
 > configurazione del robot. Se una fase non è chiara o richiede una
 > forzatura, fermarsi e consultare il manuale o l'assistenza Stäubli.
 
+
+![Robot covers](https://github.com/giallumigliet/RobotWIKI/blob/main/docs/staubli/guides/Robot-covers.png)
+
+Il robot presenta le seguenti zone con carter:
+- **A**: zona "DSI"
+- **B**: zona "Shoulder"
+- **C**: zona "Inner Link bottom"
+- **D**: zona "Inner Link top"
+- **E**: zona "Elbow"
+  
+
 ## 1. Materiale e attrezzatura
 
 -   Connettore di manutenzione e connettore alimentazione 24 V.
