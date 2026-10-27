@@ -9,15 +9,17 @@
 > forzatura, fermarsi e consultare il manuale o l'assistenza Stäubli.
 
 
-![Robot covers](https://github.com/giallumigliet/RobotWIKI/blob/main/docs/staubli/guides/Robot-covers.png)
 
-Il robot presenta le seguenti zone con carter:
+Il robot Stäubli TX2-60 presenta le seguenti zone con carter:
 - **A**: zona "DSI"
 - **B**: zona "Shoulder"
 - **C**: zona "Inner Link bottom"
 - **D**: zona "Inner Link top"
 - **E**: zona "Elbow"
-  
+
+<div align="left">
+  <img src="https://github.com/giallumigliet/RobotWIKI/blob/main/docs/staubli/guides/Robot-covers.png" alt="Robot cover" width="25%">
+</div>
 
 ## 1. Materiale e attrezzatura
 
@@ -75,7 +77,7 @@ Il robot presenta le seguenti zone con carter:
 4.  Scollegare il collegamento di terra del polso.
 5.  Estrarre il polso.
 
-### 4.2 Piastra I/O e pacco valvole -- apertura J2, lato valvole
+### 4.2 Piastra I/O e pacco valvole -- apertura J2, lato valvole (zona C)
 
 1.  Fotografare il cablaggio e la disposizione delle fascette nella
     zona.
@@ -89,7 +91,7 @@ Il robot presenta le seguenti zone con carter:
 6.  Estrarre il pacco valvole/elettrovalvole svitando i fissaggi
     previsti.
 
-### 4.3 Apertura J4 e liberazione dei cavi del polso
+### 4.3 Apertura J4 e liberazione dei cavi del polso (zona E)
 
 1.  Dall'apertura J4, fotografare l'instradamento dei cavi dietro il
     motore e sotto il carter.
@@ -98,7 +100,7 @@ Il robot presenta le seguenti zone con carter:
 3.  Rimuovere le fascette che vincolano il cablaggio e il carter nero,
     conservando la posizione di ogni fissaggio.
 
-### 4.4 Cinghia e motore J4
+### 4.4 Cinghia e motore J4 (zona E)
 
 1.  **Misurare e registrare la tensione iniziale della cinghia** prima
     di allentarla.
@@ -114,7 +116,7 @@ Il robot presenta le seguenti zone con carter:
 
 ### 4.5 Fasi motore, terre e fascette -- aperture J2/J3/J4
 
-1.  Dalle aperture J2 lato motori e J4, identificare e fotografare le
+1.  Dalle aperture J2 lato motori (zona B) e J4 (zona E), identificare e fotografare le
     fasi del motore prima di scollegarle.
 2.  Scollegare le fasi con l'estrattore corretto previsto per i
     terminali. Non fare leva sui fili e non usare utensili troppo
@@ -122,7 +124,7 @@ Il robot presenta le seguenti zone con carter:
 3.  Rimuovere le fascette metalliche e le altre fascette che vincolano
     l'harness, facendo attenzione ai bordi taglienti e a non incidere
     l'isolamento.
-4.  Dalle aperture J2 lato motori e J3, rimuovere i collegamenti di
+4.  Dalle aperture J2 lato motori (zona B) e J3 (zona D), rimuovere i collegamenti di
     terra. Se possibile, togliere la vite e riavvitarla nella sua sede
     per evitare di perderla; mantenere identificata ogni terra. Scollegare connettori encoder e 24 V (un connettore 24 V è in più, agganciato a una staffa).
 
@@ -138,13 +140,13 @@ Il robot presenta le seguenti zone con carter:
     sui raccordi. I cavi I/O, più ingombranti, vanno gestiti per ultimi nella sequenza di estrazione indicata dagli appunti, dopo aver liberato il percorso degli altri cavi. Se il cablaggio non scorre, **non forzare**: cercare una fascetta o un vincolo ancora presente.
 4.  Procedere nell'ordine indicato, verificando il
     percorso reale del cablaggio:
-    -   estrarre dalla zona J3;
-    -   proseguire dall'apertura J2 lato valvole;
-    -   completare dall'apertura J2 lato motori.
+    -   estrarre dalla zona J3 (zona D);
+    -   proseguire dall'apertura J2 lato valvole (zona C);
+    -   completare dall'apertura J2 lato motori (zona B).
 5.  Estrarre il cablaggio completo mantenendo protetti i connettori e
     annotando l'orientamento di ogni gruppo.
 
-### 4.7 Rimozione della parte inferiore e della scheda DSI
+### 4.7 Rimozione della parte inferiore e della scheda DSI (zona A)
 
 1.  Fotografare la parte inferiore e l'orientamento del componente nero.
 2.  Svitare il componente nero alla base del robot e sfilarlo senza
