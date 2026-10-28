@@ -11,7 +11,8 @@ Al fine di muoversi parallelamente alla barra porta aghi/tappatura, bisogna crea
 1. Interrompere applicazione ciclo.
 2. Avviare applicazione `CalibToolV2()`, con cui prendere i punti che definiscono il frame.
 3. Caricare punti con il programma `CalibToolV2.m` da **OCTAVE**: run del programma, selezionare "FTP Connection", inserire IP Address del robot da calibrare con username e password del profilo, confermare.
-4. Annotare le correzioni di rotazione e creare il tool calibrato con esse. (Eventualmente ritoccare gli interassi)
+4. Annotare le correzioni di rotazione e creare il tool calibrato con esse.
+5. Eventualmente ritoccare anche gli interassi con le correzioni interassi.
 
 **N.B**: l'errore massimo consentito è di **0.3**, in caso contrario riprendere i punti (step 2).
 
