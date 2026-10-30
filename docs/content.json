@@ -115,6 +115,7 @@
                 }
             ],
             "guides": [
+                "ADDON.md",
                 "Architettura.md",
                 "SRS.md",
                 "Safety.md",
