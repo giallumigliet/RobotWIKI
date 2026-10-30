@@ -13,5 +13,5 @@
 - Connettersi al controllore fisico con FTP (per esempio con FileZilla).
 - Trovare il file `.so` della cartella **CS9** presente nella cartella dell'ADDON scaricata da MyStaubli.
 - Copiare il file `.so` nel controllore fisico nella directory **usr/app** (se non esiste la cartella app, bisogna crearla).
-- Riavviare il controllore
+- Riavviare il controllore.
  
