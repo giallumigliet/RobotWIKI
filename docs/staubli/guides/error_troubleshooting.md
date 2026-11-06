@@ -46,8 +46,10 @@ Da SYCON:
 
 ## 5. High temperature in Power supply or 24V2 feedback missing
 Verificare che il led verde 24 V2 sul controllore sia acceso (24V2 è il feedback per i freni). 
+
 Se spento allora dovrebbe lampeggiare il modo regolare l'ultimo led arancione, il numero di blink corrisponde al codice errore.
 L'errore 8 è il più comune e indica un problema nel cablaggio di interconnessione tra il controllore e il braccio.
+
 La causa più probabile è che dei pin sui connettori maschio siano rotti o piegati: se sono rotti sul connettore maschio del cavo (lato controllore) basta aprire il connettore e sostituire i pin, se invece sono rotti i pin del connettore maschio dell'harness del braccio allora o si cambiano i pin (difficile) o va sostituito l'intero harness del robot.
 
 
