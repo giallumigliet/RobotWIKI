@@ -1,4 +1,4 @@
-# Valvole
+# Elettrovalvole
 ## 1. Sigle 
 
 -  **E**: scarico dell'aria per l'ingresso P1 delle elettrovalvole.
@@ -11,3 +11,16 @@
 Nelle valvole bistabili, in presenza di più di una, l'accoppiamento dei connettori dei tubi di ingresso e di uscita è 
 - A1 ↔ B1
 - A2 ↔ B2
+
+
+## 3. Apertura/chiusura pinze con controllore vecchio CS8
+I digitali che controllano le elettrovalvole sono in:
+```text
+Control Panel
+↓
+Controller
+↓
+UserIO
+↓
+Dout
+```
