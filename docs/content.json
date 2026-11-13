@@ -121,14 +121,14 @@
                 "Safety.md",
                 "Sostituzione_harness_Staubli_TX2-60.md",
                 "backup_e_restore.md",
+                "elettrovalvole.md",
                 "error_troubleshooting.md",
                 "filler_calibration.md",
                 "movements.md",
                 "nome_modelli_robot.md",
                 "quick_reference.md",
                 "registri_e_segnali.md",
-                "sintassi_VAL3.md",
-                "valvole.md"
+                "sintassi_VAL3.md"
             ]
         }
     ]
